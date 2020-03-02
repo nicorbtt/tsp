@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 
 public class TSPFile {
 
-    private enum Header {
+    public enum Header {
         BEST_KNOWN,
         COMMENT,
         DIMENSION,
@@ -43,7 +43,7 @@ public class TSPFile {
                 Header header = Header.valueOf(line[0].trim());
                 properties.put(header, line[1].trim());
             } else {
-                String[] line = row.split(" ");
+                String[] line = row.trim().split(" ");
                 if (line[0].trim().equals("EOF")) {
                     break;
                 }
@@ -65,4 +65,34 @@ public class TSPFile {
     public void printCities() {
         IntStream.range(0, cities.length).forEach(i -> System.out.println(cities[i]));
     }
+
+    public String getProperties(Header h) {
+        return properties.get(h);
+    }
+
+    public void output(List<City> tour, int cost) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("NAME : ").append(properties.get(Header.NAME)).append(".opt.tour");
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("COMMENT : ").append("Tour result for ").append(properties.get(Header.NAME)).append(
+                ".tsp").append(" (").append(cost).append(")");
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("TYPE : TOUR");
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("DIMENSION : ").append(properties.get(Header.DIMENSION));
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("TOUR_SECTION");
+        stringBuilder.append(System.lineSeparator());
+        tour.remove(tour.size()-1);
+        tour.forEach(city -> stringBuilder.append(city.getId()).append(System.lineSeparator()));
+        stringBuilder.append("-1").append(System.lineSeparator());
+        stringBuilder.append("EOF");
+        try {
+            String path = "src/main/resources/files/" + properties.get(Header.NAME) + ".opt.tour";
+            Files.write(Paths.get(path), stringBuilder.toString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

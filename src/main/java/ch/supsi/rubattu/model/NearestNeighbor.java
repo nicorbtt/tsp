@@ -2,11 +2,12 @@ package ch.supsi.rubattu.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NearestNeighbor implements Algorithm {
 
     @Override
-    public AlgorithmResponse compute(Data data) {
+    public Result compute(City[] cities, Data data) {
         int numberOfNodes = data.getData().length;
         int currentNode = 0;
 
@@ -24,7 +25,10 @@ public class NearestNeighbor implements Algorithm {
         int firstNode = route.get(0);
         cost += data.getData()[currentNode][firstNode];
         route.add(firstNode);
-        return new AlgorithmResponse(route, cost);
+
+        return new Result(
+                route.stream().map(integer -> cities[integer]).collect(Collectors.toList()),
+                cost);
     }
 
     private int findMinIdx(List<Integer> route, Integer[] numbers) {

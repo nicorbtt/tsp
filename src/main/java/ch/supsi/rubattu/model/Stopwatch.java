@@ -21,11 +21,10 @@ public class Stopwatch {
         state = STATE.BUSY;
     }
 
-    public void end() {
-        if (state != STATE.BUSY) System.out.println("millis: 0");
+    public long end() {
+        if (state != STATE.BUSY) return 0L;
         end = System.currentTimeMillis();
         state = STATE.AVAILABLE;
-        long millis = end - start;
-        System.out.println("millis: " + millis);
+        return end - start;
     }
 }

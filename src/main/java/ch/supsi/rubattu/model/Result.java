@@ -2,13 +2,13 @@ package ch.supsi.rubattu.model;
 
 import java.util.List;
 
-public class AlgorithmResponse {
+public class Result {
 
-    private List<Integer> route;
+    private List<City> tour;
     private int cost;
 
-    public AlgorithmResponse(List<Integer> route, int cost) {
-        this.route = route;
+    public Result(List<City> tour, int cost) {
+        this.tour = tour;
         this.cost = cost;
     }
 
@@ -16,12 +16,20 @@ public class AlgorithmResponse {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Result:\n")
                 .append("----- ROUTE -----\n");
-        route.subList(0, route.size()-1).forEach(node -> {
+        tour.subList(0, tour.size()-1).forEach(node -> {
             stringBuilder.append(node)
                     .append("->");
         });
-        stringBuilder.append(route.get(route.size()-1));
+        stringBuilder.append(tour.get(tour.size()-1));
         stringBuilder.append("\n----- COST: ").append(cost).append(" -----");
         System.out.println(stringBuilder.toString());
+    }
+
+    public List<City> tour() {
+        return tour;
+    }
+
+    public int cost() {
+        return cost;
     }
 }
