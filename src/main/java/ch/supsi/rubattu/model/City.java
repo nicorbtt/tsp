@@ -3,34 +3,34 @@ package ch.supsi.rubattu.model;
 public class City {
 
     private Integer id;
-    private Double coordX;
-    private Double coordY;
+    private Double x;
+    private Double y;
 
-    public City(Integer id, Double coordX, Double coordY) {
+    public City(Integer id, Double x, Double y) {
         this.id = id;
-        this.coordX = coordX;
-        this.coordY = coordY;
+        this.x = x;
+        this.y = y;
     }
 
-    public Integer getId() {
+    public Integer id() {
         return id;
     }
 
-    public Double getCoordX() {
-        return coordX;
+    public Double x() {
+        return x;
     }
 
 
-    public Double getCoordY() {
-        return coordY;
+    public Double y() {
+        return y;
     }
 
     @Override
     public String toString() {
         return "City{" +
                 "id=" + id +
-                ", coordX=" + coordX +
-                ", coordY=" + coordY +
+                ", x=" + x +
+                ", y=" + y +
                 '}';
     }
 }

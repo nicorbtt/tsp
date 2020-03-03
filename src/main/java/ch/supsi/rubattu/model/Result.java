@@ -1,5 +1,7 @@
 package ch.supsi.rubattu.model;
 
+import ch.supsi.rubattu.model.City;
+
 import java.util.List;
 
 public class Result {
@@ -14,13 +16,13 @@ public class Result {
 
     public void printResult() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Result:\n")
-                .append("----- ROUTE -----\n");
+        stringBuilder.append("result:\n")
+                .append("------- ROUTE -------\n");
         tour.subList(0, tour.size()-1).forEach(node -> {
-            stringBuilder.append(node)
-                    .append("->");
+            stringBuilder.append(node.id())
+                    .append(" -> ");
         });
-        stringBuilder.append(tour.get(tour.size()-1));
+        stringBuilder.append(tour.get(tour.size()-1).id());
         stringBuilder.append("\n----- COST: ").append(cost).append(" -----");
         System.out.println(stringBuilder.toString());
     }

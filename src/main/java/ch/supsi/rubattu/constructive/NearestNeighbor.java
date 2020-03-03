@@ -1,15 +1,25 @@
-package ch.supsi.rubattu.model;
+package ch.supsi.rubattu.constructive;
+
+import ch.supsi.rubattu.model.City;
+import ch.supsi.rubattu.model.DistanceMatrix;
+import ch.supsi.rubattu.model.Result;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class NearestNeighbor implements Algorithm {
+public class NearestNeighbor implements Constructive {
+
+    private int start;
+
+    public NearestNeighbor(int start) {
+        this.start = start;
+    }
 
     @Override
-    public Result compute(City[] cities, Data data) {
-        int numberOfNodes = data.getData().length;
-        int currentNode = 0;
+    public Result compute(City[] cities, DistanceMatrix distanceMatrix) {
+        int numberOfNodes = distanceMatrix.data().length;
+        int currentNode = start;
 
         List<Integer> route = new ArrayList<>();
         int cost = 0;
@@ -17,13 +27,13 @@ public class NearestNeighbor implements Algorithm {
 
         for (int q=1; q<numberOfNodes; q++) {
             int nextNodeIndex;
-            nextNodeIndex = findMinIdx(route, data.getData()[currentNode]);
-            cost += data.getData()[currentNode][nextNodeIndex];
+            nextNodeIndex = findMinIdx(route, distanceMatrix.data()[currentNode]);
+            cost += distanceMatrix.data()[currentNode][nextNodeIndex];
             route.add(nextNodeIndex);
             currentNode = nextNodeIndex;
         }
         int firstNode = route.get(0);
-        cost += data.getData()[currentNode][firstNode];
+        cost += distanceMatrix.data()[currentNode][firstNode];
         route.add(firstNode);
 
         return new Result(

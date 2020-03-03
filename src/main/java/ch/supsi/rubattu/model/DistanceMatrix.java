@@ -1,8 +1,11 @@
 package ch.supsi.rubattu.model;
 
+import ch.supsi.rubattu.distance.Distance;
+import ch.supsi.rubattu.distance.EuclideanDistance;
+
 import java.util.Arrays;
 
-public class Data {
+public class DistanceMatrix {
 
     private Integer[][] data;
 
@@ -21,7 +24,7 @@ public class Data {
         for (Integer[] row : data) System.out.println(Arrays.toString(row));
     }
 
-    public Integer[][] getData() {
+    public Integer[][] data() {
         return data;
     }
 }

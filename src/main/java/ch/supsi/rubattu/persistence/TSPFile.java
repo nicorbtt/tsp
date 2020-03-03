@@ -1,4 +1,6 @@
-package ch.supsi.rubattu.model;
+package ch.supsi.rubattu.persistence;
+
+import ch.supsi.rubattu.model.City;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -49,7 +51,7 @@ public class TSPFile {
                 }
                 City city = new City(Integer.parseInt(line[0]), Double.parseDouble(line[1]),
                         Double.parseDouble(line[2]));
-                cities[city.getId()-1] = city;
+                cities[city.id()-1] = city;
             }
         }
         return cities;
@@ -84,7 +86,7 @@ public class TSPFile {
         stringBuilder.append("TOUR_SECTION");
         stringBuilder.append(System.lineSeparator());
         tour.remove(tour.size()-1);
-        tour.forEach(city -> stringBuilder.append(city.getId()).append(System.lineSeparator()));
+        tour.forEach(city -> stringBuilder.append(city.id()).append(System.lineSeparator()));
         stringBuilder.append("-1").append(System.lineSeparator());
         stringBuilder.append("EOF");
         try {

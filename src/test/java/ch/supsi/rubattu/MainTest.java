@@ -4,70 +4,86 @@ import org.junit.Test;
 
 public class MainTest {
 
-    @Test(timeout = 181000)
-    public void easy() {
-        String[] args = {"-o", "-v", "src/main/resources/files/easy.tsp"};
-        Main.main(args);
-    }
+    Double[] ratios = new Double[10];
 
     @Test(timeout = 181000)
     public void ch130() {
-        String[] args = {"-o", "-v", "src/main/resources/files/ch130.tsp"};
+        System.out.print("ch130 ");
+        String[] args = {"-o -start17", "src/main/resources/files/ch130.tsp"};
         Main.main(args);
+        // NN + Opt2: 0.59, 95ms
     }
 
     @Test(timeout = 181000)
     public void d198() {
-        String[] args = {"-v", "src/main/resources/files/d198.tsp"};
+        System.out.print("d198 ");
+        String[] args = {"-o -start34", "src/main/resources/files/d198.tsp"};
         Main.main(args);
+        // NN + Opt2: 0.74, 108ms
     }
 
     @Test(timeout = 181000)
     public void eil76() {
-        String[] args = {"-o","-v", "src/main/resources/files/eil76.tsp"};
+        System.out.print("eil76 ");
+        String[] args = {"-o -start40", "src/main/resources/files/eil76.tsp"};
         Main.main(args);
+        // NN + Opt2: 1.30, 75ms
     }
 
     @Test(timeout = 181000)
     public void kroA100() {
-        String[] args = {"-o","-v", "src/main/resources/files/kroA100.tsp"};
+        System.out.print("kroA100 ");
+        String[] args = {"-o -start37", "src/main/resources/files/kroA100.tsp"};
         Main.main(args);
+        // NN + Opt2: 0.37, 80ms
     }
 
-    @Test(timeout = 181000)
+    @Test(timeout = 181000000)
     public void fl1577() {
-        String[] args = {"-o", "-v", "src/main/resources/files/fl1577.tsp"};
+        System.out.print("fl1577 ");
+        String[] args = {"-o -start0", "src/main/resources/files/fl1577.tsp"};
         Main.main(args);
+        // NN + Opt2: 2.96, 1477ms
     }
 
     @Test(timeout = 181000)
     public void lin318() {
-        String[] args = {"-v", "src/main/resources/files/lin318.tsp"};
+        System.out.print("lin318 ");
+        String[] args = {"-o -start85", "src/main/resources/files/lin318.tsp"};
         Main.main(args);
+        // NN + Opt2: 1.53, 142ms
     }
 
     @Test(timeout = 181000)
     public void pcb442() {
-        String[] args = {"-v", "src/main/resources/files/pcb442.tsp"};
+        System.out.print("pcb442 ");
+        String[] args = {"-o -start98", "src/main/resources/files/pcb442.tsp"};
         Main.main(args);
+        // NN + Opt2: 1.93, 171ms
     }
 
     @Test(timeout = 181000)
     public void pr439() {
-        String[] args = {"-v", "src/main/resources/files/pr439.tsp"};
+        System.out.print("pr439 ");
+        String[] args = {"-o -start21", "src/main/resources/files/pr439.tsp"};
         Main.main(args);
+        // NN + Opt2: 2.36, 155ms
     }
 
     @Test(timeout = 181000)
     public void rat783() {
-        String[] args = {"-v", "src/main/resources/files/rat783.tsp"};
+        System.out.print("rat738 ");
+        String[] args = {"-o -start272", "src/main/resources/files/rat783.tsp"};
         Main.main(args);
+        // NN + Opt2: 3.74, 278ms
     }
 
     @Test(timeout = 181000)
     public void u1060() {
-        String[] args = {"-v", "src/main/resources/files/u1060.tsp"};
+        System.out.print("u1060 ");
+        String[] args = {"-o -start362", "src/main/resources/files/u1060.tsp"};
         Main.main(args);
+        // NN + Opt2: 4.32, 448ms
     }
 
 }
