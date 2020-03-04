@@ -72,7 +72,7 @@ public class TSPFile {
         return properties.get(h);
     }
 
-    public void output(List<City> tour, int cost) {
+    public void output(City[] tour, double cost) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("NAME : ").append(properties.get(Header.NAME)).append(".opt.tour");
         stringBuilder.append(System.lineSeparator());
@@ -85,8 +85,7 @@ public class TSPFile {
         stringBuilder.append(System.lineSeparator());
         stringBuilder.append("TOUR_SECTION");
         stringBuilder.append(System.lineSeparator());
-        tour.remove(tour.size()-1);
-        tour.forEach(city -> stringBuilder.append(city.id()).append(System.lineSeparator()));
+        for (int q=0; q<tour.length-1; ++q) stringBuilder.append(tour[q].id()).append(System.lineSeparator());
         stringBuilder.append("-1").append(System.lineSeparator());
         stringBuilder.append("EOF");
         try {

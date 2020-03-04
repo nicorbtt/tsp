@@ -95,7 +95,6 @@ public class Main {
         */
 
 
-
         Constructive algorithm = new NearestNeighbor(startingNode);
         Result response = algorithm.compute(cities, matrix);
 
@@ -117,13 +116,8 @@ public class Main {
         System.out.println(valid ? "Tour is valid" : "!! Tour is not valid !!");
         System.out.println("=====================");
 
-        List<Integer> integers = new ArrayList<>();
-        response2.tour().forEach(city->integers.add(city.id()));
-        Collections.sort(integers);
-        integers.forEach(System.out::println);
+        if (output) file.output(response2.tour(), response2.cost());
 
-
-        if (output) file.output(response2.tour(), response2.cost()); //Occhio modifica tour eliminando ultima city
     }
 
 }

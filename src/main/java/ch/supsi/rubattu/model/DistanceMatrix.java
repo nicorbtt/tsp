@@ -7,10 +7,10 @@ import java.util.Arrays;
 
 public class DistanceMatrix {
 
-    private Integer[][] data;
+    private double[][] data;
 
     public void loadData(City[] cities) {
-        data = new Integer[cities.length][cities.length];
+        data = new double[cities.length][cities.length];
         Distance distance = new EuclideanDistance();
 
         for (int q=0; q<cities.length; q++) {
@@ -21,10 +21,10 @@ public class DistanceMatrix {
     }
 
     public void print2D() {
-        for (Integer[] row : data) System.out.println(Arrays.toString(row));
+        for (double[] row : data) System.out.println(Arrays.toString(row));
     }
 
-    public Integer[][] data() {
+    public double[][] data() {
         return data;
     }
 }

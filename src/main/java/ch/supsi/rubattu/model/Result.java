@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Result {
 
-    private List<City> tour;
-    private int cost;
+    private City[] tour;
+    private double cost;
 
-    public Result(List<City> tour, int cost) {
+    public Result(City[] tour, double cost) {
         this.tour = tour;
         this.cost = cost;
     }
@@ -18,20 +18,19 @@ public class Result {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("result:\n")
                 .append("------- ROUTE -------\n");
-        tour.subList(0, tour.size()-1).forEach(node -> {
-            stringBuilder.append(node.id())
-                    .append(" -> ");
-        });
-        stringBuilder.append(tour.get(tour.size()-1).id());
+        for (int q=0; q<tour.length; ++q) {
+            stringBuilder.append(tour[q].id());
+            if (q != tour.length) stringBuilder.append("->");
+        }
         stringBuilder.append("\n----- COST: ").append(cost).append(" -----");
         System.out.println(stringBuilder.toString());
     }
 
-    public List<City> tour() {
+    public City[] tour() {
         return tour;
     }
 
-    public int cost() {
+    public double cost() {
         return cost;
     }
 }
