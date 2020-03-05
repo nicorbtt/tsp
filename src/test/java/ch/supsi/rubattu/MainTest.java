@@ -48,12 +48,12 @@ public class MainTest {
         // NN + Opt2: 0.37, 26ms
     }
 
-    @Test(timeout = 181000000) //CHECK
+    @Test(timeout = 181000)
     public void fl1577() {
         System.out.print("fl1577 ");
-        String[] args = {"-o -start0", "src/main/resources/files/fl1577.tsp"};
+        String[] args = {"-o -start906", "src/main/resources/files/fl1577.tsp"};
         Main.main(args);
-        // NN + Opt2: 2.82, 3414ms
+        // NN + Opt2: 1.96, 3414ms
     }
 
     @Test(timeout = 181000)
@@ -72,7 +72,7 @@ public class MainTest {
         // NN + Opt2: 1.93, 119ms
     }
 
-    @Test(timeout = 1810000)
+    @Test(timeout = 181000)
     public void pr439() {
         System.out.print("pr439 ");
         String[] args = {"-o -start21", "src/main/resources/files/pr439.tsp"};
@@ -80,7 +80,7 @@ public class MainTest {
         // NN + Opt2: 2.36, 135ms
     }
 
-    @Test(timeout = 18100000)
+    @Test(timeout = 181000)
     public void rat783() {
         System.out.print("rat738 ");
         String[] args = {"-o -start272", "src/main/resources/files/rat783.tsp"};
@@ -88,12 +88,12 @@ public class MainTest {
         // NN + Opt2: 3.74, 632ms
     }
 
-    @Test(timeout = 181000000) //CHECK
+    @Test(timeout = 181000)
     public void u1060() {
         System.out.print("u1060 ");
-        String[] args = {"-o -start845", "src/main/resources/files/u1060.tsp"};
+        String[] args = {"-o -start939", "src/main/resources/files/u1060.tsp"};
         Main.main(args);
-        // NN + Opt2: 5.58, 1757ms
+        // NN + Opt2: 4.83, 1757ms
     }
 
 }
