@@ -2,7 +2,16 @@ package ch.supsi.rubattu.model;
 
 public class Stopwatch {
 
-    enum STATE {
+    private static Stopwatch ourInstance = new Stopwatch();
+
+    public static Stopwatch getInstance() {
+        return ourInstance;
+    }
+
+    private Stopwatch() {
+    }
+
+    private enum STATE {
         BUSY,
         AVAILABLE
     }
@@ -19,6 +28,10 @@ public class Stopwatch {
 
         start = System.currentTimeMillis();
         state = STATE.BUSY;
+    }
+
+    public long time() {
+        return System.currentTimeMillis() - start;
     }
 
     public long end() {

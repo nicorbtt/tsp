@@ -49,8 +49,8 @@ public class NearestNeighbor implements Constructive {
                 cost);
     }
 
-    private int findMinIdx(int[] route, double[] numbers, boolean[] visited) {
-        double minVal = Double.MAX_VALUE;
+    private int findMinIdx(int[] route, int[] numbers, boolean[] visited) {
+        int minVal = Integer.MAX_VALUE;
         int minIdx = -1;
         for(int idx = 0; idx < numbers.length; idx++) {
             if(numbers[idx] < minVal && numbers[idx] != -1 && !visited[idx]) {

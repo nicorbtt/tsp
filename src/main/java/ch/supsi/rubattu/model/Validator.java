@@ -15,8 +15,8 @@ public class Validator {
 
         List<Integer> checkpoints = new ArrayList<>();
 
-        double costValidator = 0;
-        double[][] distances = distanceMatrix.data();
+        int costValidator = 0;
+        int[][] distances = distanceMatrix.data();
 
         for (int q = 0; q<result.tour().length - 1; ++q) {
             int city = result.tour()[q].id();

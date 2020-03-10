@@ -7,9 +7,9 @@ import java.util.List;
 public class Result {
 
     private City[] tour;
-    private double cost;
+    private int cost;
 
-    public Result(City[] tour, double cost) {
+    public Result(City[] tour, int cost) {
         this.tour = tour;
         this.cost = cost;
     }
@@ -30,7 +30,7 @@ public class Result {
         return tour;
     }
 
-    public double cost() {
+    public int cost() {
         return cost;
     }
 }

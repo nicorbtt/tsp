@@ -4,17 +4,14 @@ import ch.supsi.rubattu.model.City;
 import ch.supsi.rubattu.model.DistanceMatrix;
 import ch.supsi.rubattu.model.Result;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Opt2 {
 
     public static Result optimize(Result result, DistanceMatrix distanceMatrix) {
 
         City[] tour = result.tour().clone();
-        double best = result.cost();
+        int best = result.cost();
 
-        double improvement, bestImprovement;
+        int improvement, bestImprovement;
         int I, J;
         boolean swaps;
 
@@ -32,7 +29,7 @@ public class Opt2 {
             }
             swaps = false;
             if (bestImprovement > 0) {
-                swap(tour, I, J);
+                exchange(tour, I, J);
                 swaps = true;
             }
         } while (swaps);
@@ -40,9 +37,9 @@ public class Opt2 {
         return new Result(tour, best);
     }
 
-    private static double calculateCost(City[] tour, DistanceMatrix distanceMatrix) {
-        double cost = 0;
-        double[][] distances = distanceMatrix.data();
+    private static int calculateCost(City[] tour, DistanceMatrix distanceMatrix) {
+        int cost = 0;
+        int[][] distances = distanceMatrix.data();
         for (int q = 0; q<tour.length - 1; ++q) {
             int city = tour[q].id();
             int nextCity = tour[q + 1].id();
@@ -51,16 +48,16 @@ public class Opt2 {
         return cost;
     }
 
-    private static double checkImprovement(int i, int j, City[] route, DistanceMatrix distanceMatrix) {
+    private static int checkImprovement(int i, int j, City[] route, DistanceMatrix distanceMatrix) {
         int a = route[i-1].id() - 1;
         int b = route[i].id() - 1;
         int c = route[j].id() - 1;
         int d = route[j+1].id() - 1;
-        double[][] matrix = distanceMatrix.data();
+        int[][] matrix = distanceMatrix.data();
         return  matrix[a][b] + matrix[c][d] - (matrix[a][c] + matrix[b][d]);
     }
 
-    private static void swap(City[] tour, int i, int j) {
+    private static void exchange(City[] tour, int i, int j) {
         for (;i < j; i++, j--) {
             City tmp = tour[i];
             tour[i] = tour[j];

@@ -1,7 +1,9 @@
 package ch.supsi.rubattu;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class MainTest {
 
     Double[] ratios = new Double[10];
@@ -21,7 +23,8 @@ public class MainTest {
         System.out.print("ch130 ");
         String[] args = {"-o -start42", "src/main/resources/files/ch130.tsp"};
         Main.main(args);
-        // NN + Opt2: 2.37, 36ms
+        // NN + Opt2: 0.0
+        // 0.0
     }
 
     @Test(timeout = 181000)
@@ -29,7 +32,8 @@ public class MainTest {
         System.out.print("d198 ");
         String[] args = {"-o -start46", "src/main/resources/files/d198.tsp"};
         Main.main(args);
-        // NN + Opt2: 1.08, 53ms
+        // NN + Opt2: 0.03
+        // 0.03
     }
 
     @Test(timeout = 181000)
@@ -37,7 +41,8 @@ public class MainTest {
         System.out.print("eil76 ");
         String[] args = {"-o -start40", "src/main/resources/files/eil76.tsp"};
         Main.main(args);
-        // NN + Opt2: 1.30, 22ms
+        // NN + Opt2: 0.0
+        // 0.0
     }
 
     @Test(timeout = 181000)
@@ -45,7 +50,8 @@ public class MainTest {
         System.out.print("kroA100 ");
         String[] args = {"-o -start37", "src/main/resources/files/kroA100.tsp"};
         Main.main(args);
-        // NN + Opt2: 0.37, 26ms
+        // NN + Opt2: 0.0
+        // 0.0
     }
 
     @Test(timeout = 181000)
@@ -53,7 +59,8 @@ public class MainTest {
         System.out.print("fl1577 ");
         String[] args = {"-o -start906", "src/main/resources/files/fl1577.tsp"};
         Main.main(args);
-        // NN + Opt2: 1.96, 3414ms
+        // NN + Opt2: 1.69
+        // 1.51
     }
 
     @Test(timeout = 181000)
@@ -61,15 +68,17 @@ public class MainTest {
         System.out.print("lin318 ");
         String[] args = {"-o -start85", "src/main/resources/files/lin318.tsp"};
         Main.main(args);
-        // NN + Opt2: 1.53, 80ms
+        // NN + Opt2: 0.27
+        // 0.36
     }
 
-    @Test(timeout = 181000)
+    @Test(timeout = 18100000)
     public void pcb442() {
         System.out.print("pcb442 ");
         String[] args = {"-o -start98", "src/main/resources/files/pcb442.tsp"};
         Main.main(args);
-        // NN + Opt2: 1.93, 119ms
+        // NN + Opt2: 1.10
+        // 1.40
     }
 
     @Test(timeout = 181000)
@@ -77,7 +86,8 @@ public class MainTest {
         System.out.print("pr439 ");
         String[] args = {"-o -start21", "src/main/resources/files/pr439.tsp"};
         Main.main(args);
-        // NN + Opt2: 2.36, 135ms
+        // NN + Opt2: 0.19
+        // 0.69
     }
 
     @Test(timeout = 181000)
@@ -85,15 +95,17 @@ public class MainTest {
         System.out.print("rat738 ");
         String[] args = {"-o -start272", "src/main/resources/files/rat783.tsp"};
         Main.main(args);
-        // NN + Opt2: 3.74, 632ms
+        // NN + Opt2: 2.82
+        // 2.41
     }
 
-    @Test(timeout = 181000)
+    @Test(timeout = 1810000)
     public void u1060() {
         System.out.print("u1060 ");
         String[] args = {"-o -start939", "src/main/resources/files/u1060.tsp"};
         Main.main(args);
-        // NN + Opt2: 4.83, 1757ms
+        // NN + Opt2: 3.72
+        // 3.48
     }
 
 }

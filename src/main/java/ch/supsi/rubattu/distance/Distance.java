@@ -4,5 +4,5 @@ import ch.supsi.rubattu.model.City;
 
 public interface Distance {
 
-    double calculate(City c1, City c2);
+    int calculate(City c1, City c2);
 }
