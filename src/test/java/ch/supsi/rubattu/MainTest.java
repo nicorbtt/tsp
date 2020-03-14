@@ -36,10 +36,10 @@ public class MainTest {
     @Test(timeout = 181000)
     public void fl1577() {
         //System.out.print("fl1577 ");
-        long seed = 6804425343975422764L;
+        long seed = -3885963329649321493L;
         String[] args = {"-o -start907 -seed" + seed, "src/main/resources/files/fl1577.tsp"};
         new Application(args).run();
-        // 1.60
+        // 1.59
     }
 
     @Test(timeout = 181000)
@@ -63,10 +63,10 @@ public class MainTest {
     @Test(timeout = 18100000)
     public void pcb442() {
         //System.out.print("pcb442 ");
-        long seed = 2679667769507335053L;
+        long seed = -8007212416927809231L;
         String[] args = {"-o -start99 -seed" + seed, "src/main/resources/files/pcb442.tsp"};
         new Application(args).run();
-        // 0.46
+        // 0.45
     }
 
     @Test(timeout = 181000)
@@ -81,19 +81,20 @@ public class MainTest {
     @Test(timeout = 181000)
     public void rat783() {
         //System.out.print("rat738 ");
-        long seed = 9199364811685704638L;
+        long seed = -4807687745892878130L;
         String[] args = {"-o -start273 -seed" + seed, "src/main/resources/files/rat783.tsp"};
         new Application(args).run();
-        // 1.93
+        // 1.83
     }
 
     @Test(timeout = 1810000)
     public void u1060() {
         //System.out.print("u1060 ");
-        long seed = 6871007879287737319L;
+        long seed = 5591943253952769003L;
         String[] args = {"-o -start940 -seed" + seed, "src/main/resources/files/u1060.tsp"};
         new Application(args).run();
-        // 2.94
+        // 2.81
     }
 
+    // 0.689
 }
