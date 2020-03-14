@@ -2,15 +2,6 @@ package ch.supsi.rubattu.model;
 
 public class Stopwatch {
 
-    private static Stopwatch ourInstance = new Stopwatch();
-
-    public static Stopwatch getInstance() {
-        return ourInstance;
-    }
-
-    private Stopwatch() {
-    }
-
     private enum STATE {
         BUSY,
         AVAILABLE

@@ -72,8 +72,10 @@ public class TSPFile {
         return properties.get(h);
     }
 
-    public void output(City[] tour, double cost) {
+    public void output(int[] tour, double cost, long seed, double ratio) {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("SEED : ").append(seed).append(System.lineSeparator());
+        stringBuilder.append("RATIO : ").append(ratio).append(System.lineSeparator());
         stringBuilder.append("NAME : ").append(properties.get(Header.NAME)).append(".opt.tour");
         stringBuilder.append(System.lineSeparator());
         stringBuilder.append("COMMENT : ").append("Tour result for ").append(properties.get(Header.NAME)).append(
@@ -85,11 +87,11 @@ public class TSPFile {
         stringBuilder.append(System.lineSeparator());
         stringBuilder.append("TOUR_SECTION");
         stringBuilder.append(System.lineSeparator());
-        for (int q=0; q<tour.length-1; ++q) stringBuilder.append(tour[q].id()).append(System.lineSeparator());
+        for (int q=0; q<tour.length-1; ++q) stringBuilder.append(tour[q]+1).append(System.lineSeparator());
         stringBuilder.append("-1").append(System.lineSeparator());
         stringBuilder.append("EOF");
         try {
-            String path = "src/main/resources/files/" + properties.get(Header.NAME) + ".opt.tour";
+            String path = properties.get(Header.NAME) + ".opt.tour";
             Files.write(Paths.get(path), stringBuilder.toString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();

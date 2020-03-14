@@ -2,14 +2,10 @@ package ch.supsi.rubattu.constructive;
 
 import ch.supsi.rubattu.model.City;
 import ch.supsi.rubattu.model.DistanceMatrix;
-import ch.supsi.rubattu.model.Result;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.Arrays;
 
-public class NearestNeighbor implements Constructive {
+public class NearestNeighbor {
 
     private int start;
 
@@ -17,47 +13,36 @@ public class NearestNeighbor implements Constructive {
         this.start = start;
     }
 
-    @Override
-    public Result compute(City[] cities, DistanceMatrix distanceMatrix) {
-        int numberOfNodes = distanceMatrix.data().length;
-        int currentNode = start;
+    public int[] compute(DistanceMatrix distanceMatrix) {
+        int numberOfCities = distanceMatrix.dim();
+        int current = start, next;
 
-        int[] route = new int[numberOfNodes+1];
-        int cost = 0;
-        route[0] = currentNode;
+        int[] tour = new int[numberOfCities+1];
+        tour[0] = current;
 
-        boolean[] visited = new boolean[numberOfNodes];
-        for (boolean b : visited) b = false;
+        boolean[] visited = new boolean[numberOfCities];
+        Arrays.fill(visited, false);
 
-        for (int q=1; q<numberOfNodes; q++) {
-            visited[currentNode] = true;
-            int nextNodeIndex;
-            nextNodeIndex = findMinIdx(route, distanceMatrix.data()[currentNode], visited);
-            cost += distanceMatrix.data()[currentNode][nextNodeIndex];
-            route[q] = nextNodeIndex;
-            currentNode = nextNodeIndex;
+        for (int q=1; q<numberOfCities; q++) {
+            visited[current] = true;
+            next = closestNeighbour(distanceMatrix.neighbours(current), visited);
+            tour[q] = next;
+            current = next;
         }
-        int firstNode = route[0];
-        cost += distanceMatrix.data()[currentNode][firstNode];
-        route[numberOfNodes] = firstNode;
 
-        City[] citiesTour = new City[numberOfNodes+1];
-        IntStream.range(0, route.length).forEach(i -> citiesTour[i] = cities[route[i]]);
-
-        return new Result(
-                citiesTour,
-                cost);
+        tour[numberOfCities] = tour[0];
+        return tour;
     }
 
-    private int findMinIdx(int[] route, int[] numbers, boolean[] visited) {
-        int minVal = Integer.MAX_VALUE;
-        int minIdx = -1;
-        for(int idx = 0; idx < numbers.length; idx++) {
-            if(numbers[idx] < minVal && numbers[idx] != -1 && !visited[idx]) {
-                minVal = numbers[idx];
-                minIdx = idx;
+    private int closestNeighbour(int[] numbers, boolean[] visited) {
+        int minDistance = Integer.MAX_VALUE;
+        int closestNeighbour = -1;
+        for(int i = 0; i < numbers.length; i++) {
+            if(numbers[i] < minDistance && numbers[i] != -1 && !visited[i]) {
+                minDistance = numbers[i];
+                closestNeighbour = i;
             }
         }
-        return minIdx;
+        return closestNeighbour;
     }
 }

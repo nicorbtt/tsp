@@ -20,11 +20,19 @@ public class DistanceMatrix {
         }
     }
 
-    public void print2D() {
-        for (int[] row : data) System.out.println(Arrays.toString(row));
+    public int dim() {
+        return data.length;
     }
 
-    public int[][] data() {
-        return data;
+    public int[] neighbours(int city) {
+        return data[city];
+    }
+
+    public int db(int city1, int city2) {
+        return data[city1][city2];
+    }
+
+    public void print2D() {
+        for (int[] row : data) System.out.println(Arrays.toString(row));
     }
 }
