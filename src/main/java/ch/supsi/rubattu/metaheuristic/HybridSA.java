@@ -1,6 +1,7 @@
 package ch.supsi.rubattu.metaheuristic;
 
-import ch.supsi.rubattu.local_search.Opt2;
+import ch.supsi.rubattu.local_search.LocalSearch;
+import ch.supsi.rubattu.local_search.Opt2h;
 import ch.supsi.rubattu.model.*;
 
 import java.util.Random;
@@ -13,6 +14,7 @@ public class HybridSA {
     private long time;
     private Random random;
     private Stopwatch stopwatch;
+    private LocalSearch localSearch;
 
     public HybridSA(
             int[] result,
@@ -20,7 +22,8 @@ public class HybridSA {
             int bestKnow,
             long time,
             Random random,
-            Stopwatch stopwatch
+            Stopwatch stopwatch,
+            LocalSearch localSearch
     ) {
         this.result = result;
         this.distanceMatrix = distanceMatrix;
@@ -28,6 +31,7 @@ public class HybridSA {
         this.time = time;
         this.random = random;
         this.stopwatch = stopwatch;
+        this.localSearch = localSearch;
     }
 
     public int[] optimize() {
@@ -45,19 +49,18 @@ public class HybridSA {
         int[] newSolution = new int[n+1];
 
         double temp = (1.5*currentCost)/(Math.sqrt(n));
-        double tempLength = 20;
+        double tempLength = 100; //prima era 20
         double alpha = 0.95;
-        Opt2 opt2 = new Opt2(distanceMatrix);
 
         while (stopwatch.time() < time) {
-            if (currentCost == bestKnow) break;
+            if (bestCost == bestKnow) break;
             for (int i=0; i<tempLength && stopwatch.time() < time; ++i) {
 
                 // Permutation
                 System.arraycopy(currentSolution, 0, newSolution, 0, n+1);
                 doubleBridge(newSolution);
                 // Local search
-                int[] newResult = opt2.optimize(newSolution);
+                int[] newResult = localSearch.optimize(newSolution);
 
                 int fNext = Utility.costOf(newResult, distanceMatrix);
                 int deltaE = currentCost - fNext;
@@ -66,7 +69,8 @@ public class HybridSA {
                     currentCost = fNext;
                     if (fNext < bestCost) {
                         System.arraycopy(newResult, 0, bestSolution,0 , n+1);
-                        bestCost = currentCost;
+                        bestCost = fNext;
+                        if (bestCost == bestKnow) break;
                     }
                 }
                 else {

@@ -2,7 +2,7 @@ package ch.supsi.rubattu.local_search;
 
 import ch.supsi.rubattu.model.DistanceMatrix;
 
-public class Opt2 {
+public class Opt2 implements LocalSearch {
 
     private DistanceMatrix distanceMatrix;
 
@@ -23,7 +23,7 @@ public class Opt2 {
             bestImprovement = I = J = 0;
             for (int i = 1; i < tour.length - 2; i++) {
                 for (int j = i + 1; j < tour.length - 1; j++) {
-                    improvement = checkImprovement(i, j, tour, distanceMatrix);
+                    improvement = checkImprovement(i, j, tour);
                     if (improvement > bestImprovement) {
                         bestImprovement = improvement;
                         I = i;
@@ -40,12 +40,12 @@ public class Opt2 {
         return tour;
     }
 
-    private int checkImprovement(int i, int j, int[] tour, DistanceMatrix dm) {
+    private int checkImprovement(int i, int j, int[] tour) {
         int a = tour[i-1];
         int b = tour[i];
         int c = tour[j];
         int d = tour[j+1];
-        return dm.db(a, b) + dm.db(c, d) - (dm.db(a, c) + dm.db(b, d));
+        return distanceMatrix.db(a, b) + distanceMatrix.db(c, d) - distanceMatrix.db(a, c) - distanceMatrix.db(b, d);
     }
 
     private void exchange(int[] tour, int i, int j) {

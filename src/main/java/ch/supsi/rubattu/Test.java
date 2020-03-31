@@ -1,7 +1,11 @@
 package ch.supsi.rubattu;
 
 import ch.supsi.rubattu.constructive.NearestNeighbor;
+import ch.supsi.rubattu.constructive.RandomNeighbor;
+import ch.supsi.rubattu.distance.EuclideanDistance;
+import ch.supsi.rubattu.local_search.LocalSearch;
 import ch.supsi.rubattu.local_search.Opt2;
+import ch.supsi.rubattu.local_search.Opt2h;
 import ch.supsi.rubattu.metaheuristic.HybridSA;
 import ch.supsi.rubattu.model.*;
 import ch.supsi.rubattu.persistence.TSPFile;
@@ -22,7 +26,7 @@ public class Test {
         this.args = args.clone();
     }
 
-    public void run() {
+    public void run() throws IOException {
 
         boolean verbose = false;
         boolean output = false;
@@ -57,12 +61,13 @@ public class Test {
         }
 
         TSPFile file = new TSPFile();
+        System.out.println(fileName);
         City[] cities = file.parse(fileName);
         if (verbose) file.printProperties();
         if (verbose) file.printCities();
 
         DistanceMatrix matrix = new DistanceMatrix();
-        matrix.loadData(cities);
+        matrix.loadData(cities, new EuclideanDistance());
         if (verbose) matrix.print2D();
 
         Random seedGenerator = new Random();
@@ -81,15 +86,18 @@ public class Test {
 
         System.out.println("Tuning...");
 
+        LocalSearch localSearch = new Opt2h(matrix);
+
         while (true) {
             long s = seedGenerator.nextLong();
             Random random = new Random(s);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.start();
 
-            int[] response1 = new NearestNeighbor(startingNode - 1).compute(matrix);
-            int[] response2 = new Opt2(matrix).optimize(response1);
-            int[] response3 = new HybridSA(response2, matrix, best, 170_000, random, stopwatch).optimize();
+            int[] response1 = new NearestNeighbor(random.nextInt(matrix.dim())).compute(matrix);
+            //int[] response1 = new RandomNeighbor(random, matrix.dim()).compute();
+            int[] response2 = localSearch.optimize(response1);
+            int[] response3 = new HybridSA(response2, matrix, best, 170_000, random, stopwatch, localSearch).optimize();
 
             int finalCost = Utility.costOf(response3, matrix);
             double ratio = (((double) finalCost - best) / best) * 100;
