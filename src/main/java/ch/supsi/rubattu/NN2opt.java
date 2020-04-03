@@ -68,20 +68,28 @@ public class NN2opt {
         double min = Double.MAX_VALUE;
         int ind = 0;
 
-        stopwatch.start();
+        //stopwatch.start();
 
-        //for (int i=0; i<cities.length; i++) {
-            int[] response1 = new NearestNeighbor(0).compute(matrix);
+        for (int i=0; i<cities.length; i++) {
+            System.out.println(i);
+            int[] response1 = new NearestNeighbor(i).compute(matrix);
             //int[] response1 = new RandomNeighbor(new Random(0), matrix.dim()).compute();
             //int[] response2 = new Opt2(matrix).optimize(response1);
             int[] response2 = new Opt2h(matrix).optimize(response1);
             int finalCost = Utility.costOf(response2, matrix);
             double ratio = (((double) finalCost - best) / best) * 100;
-            System.out.println(ratio);
-        System.out.println(new Validator().validate(response2, matrix));
-        //}
 
-        System.out.println(stopwatch.end());
+            if (ratio < min) {
+                min = ratio;
+                ind = i;
+            }
+
+            if (ratio == 0) break;
+        }
+
+        //System.out.println(tspProblem + " " + ratio);
+        System.out.println("Min: " + min + " start= " + ind);
+        //System.out.println(stopwatch.end());
 
     }
 }

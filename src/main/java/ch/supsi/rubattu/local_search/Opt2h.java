@@ -20,8 +20,6 @@ public class Opt2h implements LocalSearch {
     }
 
     public int[] optimize(int[] result) {
-        //long start = System.currentTimeMillis();
-
         int dim = result.length;
         int[] tour = new int[dim];
         System.arraycopy(result, 0, tour, 0, dim);
@@ -30,9 +28,6 @@ public class Opt2h implements LocalSearch {
         Improvement b    = new Improvement("B", 0);
         Improvement c    = new Improvement("C", 0);
         Improvement best = new Improvement("-", 0);
-        boolean performA = true;
-        boolean performB = true;
-        boolean performC = true;
 
         do {
             I = J = 0;
@@ -54,19 +49,17 @@ public class Opt2h implements LocalSearch {
                     int currentCost =   distanceMatrix.db(tour[x1], tour[x2]) +
                                         distanceMatrix.db(tour[y1], tour[y2]);
 
-                    if (performA) {
-                        a.value  =  currentCost                             -
+                    a.value  =  currentCost                             -
                                     distanceMatrix.db(tour[x1], tour[y1])   -
                                     distanceMatrix.db(tour[x2], tour[y2]);
-                    }
-                    if (performB && tour[x2+1] != tour[y1]) {
+                    if (tour[x2+1] != tour[y1]) {
                         b.value  =  currentCost                             +
                                     distanceMatrix.db(tour[x2], tour[x2+1]) -
                                     distanceMatrix.db(tour[x2+1], tour[x1]) -
                                     distanceMatrix.db(tour[x2], tour[y1])   -
                                     distanceMatrix.db(tour[y2], tour[x2]);
                     }
-                    if (performC && tour[y1-1] != tour[x2]) {
+                    if (tour[y1-1] != tour[x2]) {
                         c.value  =  currentCost                             +
                                     distanceMatrix.db(tour[y1-1], tour[y1]) -
                                     distanceMatrix.db(tour[x1], tour[y1])   -
@@ -100,7 +93,7 @@ public class Opt2h implements LocalSearch {
                 }
             }
             if (best.value > 0) {
-                if (best.name.equals("A") && performA) {
+                if (best.name.equals("A")) {
                     for (;I < J; I++, J--) {
                         int tmp = tour[I];
                         tour[I] = tour[J];
@@ -115,7 +108,7 @@ public class Opt2h implements LocalSearch {
                 int y1 = J;
                 int y2 = J+1;
                 int index = 0;
-                if (best.name.equals("B") && performB) {
+                if (best.name.equals("B")) {
                     tour[index++] = tmp[x2];
                     for (int q = y1; q>=x2+1; q--, index++) tour[index] = tmp[q];
                     for (int q=x1; q>=0; q--, index++) tour[index] = tmp[q];
@@ -123,7 +116,7 @@ public class Opt2h implements LocalSearch {
                     tour[index] = tmp[x2];
                     continue;
                 }
-                if (best.name.equals("C") && performC) {
+                if (best.name.equals("C")) {
                     for (int q=0; q<=x1; q++, index++) tour[index] = tmp[q];
                     tour[index++] = tmp[y1];
                     for (int q=x2; q<=y1-1; q++, index++) tour[index] = tmp[q];
@@ -131,8 +124,6 @@ public class Opt2h implements LocalSearch {
                 }
             }
         } while (best.value > 0);
-        //long end = System.currentTimeMillis();
-        //System.out.println(end-start);
         return tour;
     }
 }

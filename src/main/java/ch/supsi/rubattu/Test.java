@@ -34,6 +34,7 @@ public class Test {
         long seed = 1;
         String fileName;
 
+        args = args[0].split(" ");
         switch (args.length) {
             case 1:
                 fileName = args[0];
@@ -42,7 +43,7 @@ public class Test {
             case 3:
             case 4:
                 fileName = args[args.length-1];
-                List<String> options = List.of(args[0].split(" "));
+                List<String> options = List.of(args);
                 if (options.contains("-v")) verbose = true;
                 if (options.contains("-o")) output = true;
                 for (String option : options) {
@@ -84,20 +85,25 @@ public class Test {
         double min = Double.valueOf(lines.get(1).split(":")[1].trim());
         int best = Integer.parseInt(file.getProperties(TSPFile.Header.BEST_KNOWN));
 
-        System.out.println("Tuning...");
+        System.out.println("Ratio to beat: " + min);
+        System.out.println("Let's go! Tuning...");
 
-        LocalSearch localSearch = new Opt2h(matrix);
+        LocalSearch opt2h = new Opt2h(matrix);
+
+        NearestNeighbor nearestNeighbor = new NearestNeighbor(startingNode-1);
 
         while (true) {
-            long s = seedGenerator.nextLong();
+            long s;
+            do {
+                s = seedGenerator.nextLong();
+            } while (s > 0);
             Random random = new Random(s);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.start();
 
-            int[] response1 = new NearestNeighbor(random.nextInt(matrix.dim())).compute(matrix);
-            //int[] response1 = new RandomNeighbor(random, matrix.dim()).compute();
-            int[] response2 = localSearch.optimize(response1);
-            int[] response3 = new HybridSA(response2, matrix, best, 170_000, random, stopwatch, localSearch).optimize();
+            int[] response1 = nearestNeighbor.compute(matrix);
+            int[] response2 = opt2h.optimize(response1);
+            int[] response3 = new HybridSA(matrix, best, 120_000, random, stopwatch, opt2h).optimize(response2);
 
             int finalCost = Utility.costOf(response3, matrix);
             double ratio = (((double) finalCost - best) / best) * 100;
@@ -108,7 +114,7 @@ public class Test {
                 min = ratio;
             }
             if (ratio == 0) {
-                System.out.println("Find optimum!! YO");
+                System.out.println("Find optimum!!! YOO");
                 break;
             }
         }

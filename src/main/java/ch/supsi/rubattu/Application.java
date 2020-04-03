@@ -3,7 +3,9 @@ package ch.supsi.rubattu;
 import ch.supsi.rubattu.constructive.NearestNeighbor;
 import ch.supsi.rubattu.constructive.RandomNeighbor;
 import ch.supsi.rubattu.distance.EuclideanDistance;
+import ch.supsi.rubattu.local_search.LocalSearch;
 import ch.supsi.rubattu.local_search.Opt2;
+import ch.supsi.rubattu.local_search.Opt2h;
 import ch.supsi.rubattu.metaheuristic.HybridSA;
 import ch.supsi.rubattu.model.*;
 import ch.supsi.rubattu.persistence.TSPFile;
@@ -28,13 +30,13 @@ class Application {
         this.stopwatch = new Stopwatch();
     }
 
-    void run() {
+    double run() {
 
         stopwatch.start();
 
         if (!processArguments(args)) {
             System.out.println("Error parsing command line arguments");
-            return;
+            return 100d;
         }
 
         TSPFile file = new TSPFile();
@@ -45,7 +47,7 @@ class Application {
             System.out.println("TSP problem '" + tspProblem + "' not present, sorry...");
             System.out.print("...that's what's available:  ");
             System.out.println("ch130  d198  eil76  fl1577  kroA100  lin318  pcb442  pr439  rat783  u1060");
-            return;
+            return 100d;
         }
         if (verbose) file.printProperties();
         if (verbose) file.printCities();
@@ -55,16 +57,17 @@ class Application {
         if (verbose) matrix.print2D();
 
         Random random = new Random(seed);
+        int best = Integer.parseInt(file.getProperties(TSPFile.Header.BEST_KNOWN));
 
-        //NearestNeighbor algorithm = new NearestNeighbor(startingNode - 1);
-        NearestNeighbor algorithm = new NearestNeighbor(random.nextInt(matrix.dim()));
+        NearestNeighbor algorithm = new NearestNeighbor(startingNode - 1);
         int[] tour1 = algorithm.compute(matrix);
 
-        Opt2 opt2 = new Opt2(matrix);
-        int[] tour2 = opt2.optimize(tour1);
-        int best = Integer.parseInt(file.getProperties(TSPFile.Header.BEST_KNOWN));
-        HybridSA hybridSA = new HybridSA(tour2, matrix, best, 170_000, random, stopwatch, opt2);
-        int[] tour3 = hybridSA.optimize();
+        LocalSearch localSearch = new Opt2h(matrix);
+        int[] tour2 = localSearch.optimize(tour1);
+
+        HybridSA hybridSA = new HybridSA(matrix, best, 180_500, random, stopwatch, localSearch);
+        int[] tour3 = hybridSA.optimize(tour2);
+
         int finalCost = Utility.costOf(tour3, matrix);
 
         double ratio = (((double) finalCost-best)/best)*100;
@@ -73,7 +76,9 @@ class Application {
 
         if (output) file.output(tour3, finalCost, seed, ratio);
 
-        System.out.format("[%s]\t\tSeed: %d\t\tRatio: %.2f\t\tTime: %d\n", tspProblem, seed, ratio, stopwatch.end());
+        System.out.format("[%7s]\t\tSeed: %20d\t\tRatio: %.2f\t\tTime: %6d\n", tspProblem, seed, ratio,
+                stopwatch.end());
+        return ratio;
     }
 
     private boolean processArguments(String[] args) {
