@@ -1,16 +1,16 @@
 package ch.supsi.rubattu;
 
 import ch.supsi.rubattu.constructive.NearestNeighbor;
-import ch.supsi.rubattu.constructive.RandomNeighbor;
 import ch.supsi.rubattu.distance.EuclideanDistance;
-import ch.supsi.rubattu.local_search.Opt2;
 import ch.supsi.rubattu.local_search.Opt2h;
-import ch.supsi.rubattu.model.*;
+import ch.supsi.rubattu.model.City;
+import ch.supsi.rubattu.model.DistanceMatrix;
+import ch.supsi.rubattu.model.Stopwatch;
+import ch.supsi.rubattu.model.Utility;
 import ch.supsi.rubattu.persistence.TSPFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Random;
 
 public class NN2opt {
 
@@ -68,28 +68,28 @@ public class NN2opt {
         double min = Double.MAX_VALUE;
         int ind = 0;
 
-        //stopwatch.start();
+        stopwatch.start();
 
-        for (int i=0; i<cities.length; i++) {
-            System.out.println(i);
-            int[] response1 = new NearestNeighbor(i).compute(matrix);
+        //for (int i=0; i<cities.length; i++) {
+            //System.out.println(i);
+            int[] response1 = new NearestNeighbor(startingNode-1).compute(matrix);
             //int[] response1 = new RandomNeighbor(new Random(0), matrix.dim()).compute();
             //int[] response2 = new Opt2(matrix).optimize(response1);
             int[] response2 = new Opt2h(matrix).optimize(response1);
             int finalCost = Utility.costOf(response2, matrix);
             double ratio = (((double) finalCost - best) / best) * 100;
 
-            if (ratio < min) {
+            /*if (ratio < min) {
                 min = ratio;
                 ind = i;
             }
 
             if (ratio == 0) break;
-        }
+        }*/
 
-        //System.out.println(tspProblem + " " + ratio);
-        System.out.println("Min: " + min + " start= " + ind);
-        //System.out.println(stopwatch.end());
+        System.out.println(tspProblem + " " + ratio);
+        //System.out.println("Min: " + min + " start= " + ind);
+        System.out.println(stopwatch.end());
 
     }
 }

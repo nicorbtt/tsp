@@ -1,8 +1,9 @@
 package ch.supsi.rubattu.metaheuristic;
 
 import ch.supsi.rubattu.local_search.LocalSearch;
-import ch.supsi.rubattu.local_search.Opt2h;
-import ch.supsi.rubattu.model.*;
+import ch.supsi.rubattu.model.DistanceMatrix;
+import ch.supsi.rubattu.model.Stopwatch;
+import ch.supsi.rubattu.model.Utility;
 
 import java.util.Random;
 
@@ -46,10 +47,18 @@ public class HybridSA {
         int[] newSolution = new int[n+1];
 
         double temp = (1.5*currentCost)/(Math.sqrt(n));
-        //double temp = 100;
-        double tempLength = 20;
-        if (n > 450) tempLength /= 4;
-        //double tempLength = 100; //prima era 20
+        double tempLength;
+        tempLength = 150;
+        if (n > 400)    {
+            tempLength = 70;
+        }
+        if (n > 700)    {
+            tempLength = 20;
+        }
+        if (n > 1000)   {
+            tempLength = 10;
+        }
+        if (n > 1500) tempLength = 3;
         double alpha = 0.95;
 
         int i;
@@ -59,18 +68,24 @@ public class HybridSA {
         double dado;
         double probability;
 
+        int cont = 0;
+
         while (stopwatch.time() < time) {
             if (bestCost == bestKnow) break;
             for (i = 0; i < tempLength && stopwatch.time() < time; i++) {
+                cont++;
                 // Permutation
                 System.arraycopy(currentSolution, 0, newSolution, 0, n + 1);
+                randomSwap(newSolution);
                 doubleBridge(newSolution);
+                randomSwap(newSolution);
                 // Local search
                 newResult = localSearch.optimize(newSolution);
 
                 fNext = Utility.costOf(newResult, distanceMatrix);
                 deltaE = currentCost - fNext;
                 if (deltaE > 0) {
+                    //better++;
                     currentSolution = newResult;
                     currentCost = fNext;
                     if (fNext < bestCost) {
@@ -79,16 +94,29 @@ public class HybridSA {
                         if (bestCost == bestKnow) break;
                     }
                 } else {
+                    if (deltaE == 0) {
+                        //zero++;
+                        continue;
+                    }
+                    //choise++;
                     dado = random.nextDouble();
                     probability = Math.exp(deltaE / temp);
                     if (dado < probability) {
+                        //si++;
                         currentSolution = newResult;
                         currentCost = fNext;
-                    }
+                    } //else no++;
                 }
             }
             temp *= alpha;
         }
+        out("Iterazioni", cont);
+        out("Temp", temp);
+//        out("Better", better);
+//        out("Choise", choise);
+//        out("Zero", zero);
+//        out("SI", (double) si*100 / choise);
+//        out("NO", (double) no*100 / choise);
         return bestSolution;
     }
 
@@ -108,7 +136,7 @@ public class HybridSA {
     }
 
     private void doubleBridge(int[] array) {
-        int[] localCopy = array.clone();
+        int[] copy = array.clone();
         int i, j, k, l, tmp;
         do {
             i = random.nextInt(array.length - 1);
@@ -143,9 +171,9 @@ public class HybridSA {
             }
 
             if ((i+1<j) && (j+1<k) && (k+1<l)) {
-                System.arraycopy(localCopy, k+1, array, i+1, l-k);
-                System.arraycopy(localCopy, j+1, array, i+l-k+1, k-j);
-                System.arraycopy(localCopy, i+1, array, i+l-k+k-j+1, j-i);
+                System.arraycopy(copy, k+1, array, i+1, l-k);
+                System.arraycopy(copy, j+1, array, i+l-k+1, k-j);
+                System.arraycopy(copy, i+1, array, i+l-k+k-j+1, j-i);
                 break;
             }
         } while (true);

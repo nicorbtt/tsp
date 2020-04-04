@@ -4,15 +4,6 @@ import ch.supsi.rubattu.model.DistanceMatrix;
 
 public class Opt2h implements LocalSearch {
 
-    private class Improvement {
-        String name;
-        int value;
-        private Improvement(String name, int value) {
-            this.name = name;
-            this.value = value;
-        }
-    }
-
     private DistanceMatrix distanceMatrix;
 
     public Opt2h(DistanceMatrix distanceMatrix) {
@@ -24,106 +15,97 @@ public class Opt2h implements LocalSearch {
         int[] tour = new int[dim];
         System.arraycopy(result, 0, tour, 0, dim);
         int I, J;
-        Improvement a    = new Improvement("A", 0);
-        Improvement b    = new Improvement("B", 0);
-        Improvement c    = new Improvement("C", 0);
-        Improvement best = new Improvement("-", 0);
+        int a,b,c, best;
+        String iType;
+        int x1,x2,y1,y2;
+        int i,j,q;
+        int currentCost;
+        int tmp;
+        int[] tourTmp = new int[dim];
+        int index;
 
         do {
             I = J = 0;
-            best.name = "-";
-            best.value = 0;
-            for (int i = 1; i < dim - 2; i++) {
-                for (int j = i + 1; j < dim - 1; j++) {
+            best = 0;
+            iType = "-";
+            for (i = 1; i < dim - 2; i++) {
+                for (j = i + 1; j < dim - 1; j++) {
 
-                    a.name = "A";
-                    b.name = "B";
-                    c.name = "C";
-                    a.value = b.value = c.value = 0;
+                    x1 = i-1;
+                    x2 = i;
+                    y1 = j;
+                    y2 = j+1;
+                    currentCost =   distanceMatrix.db(tour[x1], tour[x2]) +
+                                    distanceMatrix.db(tour[y1], tour[y2]);
 
-                    int x1 = i-1;
-                    int x2 = i;
-                    int y1 = j;
-                    int y2 = j+1;
-
-                    int currentCost =   distanceMatrix.db(tour[x1], tour[x2]) +
-                                        distanceMatrix.db(tour[y1], tour[y2]);
-
-                    a.value  =  currentCost                             -
-                                    distanceMatrix.db(tour[x1], tour[y1])   -
-                                    distanceMatrix.db(tour[x2], tour[y2]);
-                    if (tour[x2+1] != tour[y1]) {
-                        b.value  =  currentCost                             +
-                                    distanceMatrix.db(tour[x2], tour[x2+1]) -
-                                    distanceMatrix.db(tour[x2+1], tour[x1]) -
-                                    distanceMatrix.db(tour[x2], tour[y1])   -
-                                    distanceMatrix.db(tour[y2], tour[x2]);
-                    }
-                    if (tour[y1-1] != tour[x2]) {
-                        c.value  =  currentCost                             +
-                                    distanceMatrix.db(tour[y1-1], tour[y1]) -
-                                    distanceMatrix.db(tour[x1], tour[y1])   -
-                                    distanceMatrix.db(tour[y1], tour[x2])   -
-                                    distanceMatrix.db(tour[y1-1], tour[y2]);
-                    }
-
-                    Improvement tmp;
-                    if (a.value > b.value) {
-                        tmp = a;
-                        a = b;
-                        b = tmp;
-                    }
-                    if (b.value > c.value) {
-                        tmp = b;
-                        b = c;
-                        c = tmp;
-                    }
-                    if (a.value > b.value) {
-                        tmp = a;
-                        a = b;
-                        b = tmp;
-                    }
-
-                    if (c.value > best.value) {
-                        best.name = c.name;
-                        best.value = c.value;
+                    a =     currentCost                             -
+                            distanceMatrix.db(tour[x1], tour[y1])   -
+                            distanceMatrix.db(tour[x2], tour[y2]);
+                    if (a > best) {
+                        iType = "A";
+                        best = a;
                         I = i;
                         J = j;
+                        continue;
+                    }
+                    if (tour[x2+1] != tour[y1]) {
+                        b  =    currentCost                             +
+                                distanceMatrix.db(tour[x2], tour[x2+1]) -
+                                distanceMatrix.db(tour[x2+1], tour[x1]) -
+                                distanceMatrix.db(tour[x2], tour[y1])   -
+                                distanceMatrix.db(tour[y2], tour[x2]);
+                        if (b > best) {
+                            iType = "B";
+                            best = b;
+                            I = i;
+                            J = j;
+                            continue;
+                        }
+                    }
+                    if (tour[y1-1] != tour[x2]) {
+                        c  =    currentCost                             +
+                                distanceMatrix.db(tour[y1-1], tour[y1]) -
+                                distanceMatrix.db(tour[x1], tour[y1])   -
+                                distanceMatrix.db(tour[y1], tour[x2])   -
+                                distanceMatrix.db(tour[y1-1], tour[y2]);
+                        if (c > best) {
+                            iType = "C";
+                            best = c;
+                            I = i;
+                            J = j;
+                        }
                     }
                 }
             }
-            if (best.value > 0) {
-                if (best.name.equals("A")) {
+            if (best > 0) {
+                if (iType.equals("A")) {
                     for (;I < J; I++, J--) {
-                        int tmp = tour[I];
+                        tmp = tour[I];
                         tour[I] = tour[J];
                         tour[J] = tmp;
                     }
                     continue;
                 }
-                int[] tmp = new int[dim];
-                System.arraycopy(tour, 0, tmp, 0, dim);
-                int x1 = I-1;
-                int x2 = I;
-                int y1 = J;
-                int y2 = J+1;
-                int index = 0;
-                if (best.name.equals("B")) {
-                    tour[index++] = tmp[x2];
-                    for (int q = y1; q>=x2+1; q--, index++) tour[index] = tmp[q];
-                    for (int q=x1; q>=0; q--, index++) tour[index] = tmp[q];
-                    for (int q=dim-2; q>=y2; q--, index++) tour[index] = tmp[q];
-                    tour[index] = tmp[x2];
+                System.arraycopy(tour, 0, tourTmp, 0, dim);
+                x1 = I-1;
+                x2 = I;
+                y1 = J;
+                y2 = J+1;
+                index = 0;
+                if (iType.equals("B")) {
+                    tour[index++] = tourTmp[x2];
+                    for (q = y1; q>=x2+1; q--, index++) tour[index] = tourTmp[q];
+                    for (q=x1; q>=0; q--, index++) tour[index] = tourTmp[q];
+                    for (q=dim-2; q>=y2; q--, index++) tour[index] = tourTmp[q];
+                    tour[index] = tourTmp[x2];
                     continue;
                 }
-                if (best.name.equals("C")) {
-                    for (int q=0; q<=x1; q++, index++) tour[index] = tmp[q];
-                    tour[index++] = tmp[y1];
-                    for (int q=x2; q<=y1-1; q++, index++) tour[index] = tmp[q];
-                    for (int q=y2; q<dim; q++, index++) tour[index] = tmp[q];
-                }
+                for (q=0; q<=x1; q++, index++) tour[index] = tourTmp[q];
+                tour[index++] = tourTmp[y1];
+                for (q=x2; q<=y1-1; q++, index++) tour[index] = tourTmp[q];
+                for (q=y2; q<dim; q++, index++) tour[index] = tourTmp[q];
             }
-        } while (best.value > 0);
+        } while (best > 0);
         return tour;
     }
 }

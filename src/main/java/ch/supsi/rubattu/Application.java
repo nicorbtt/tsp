@@ -1,10 +1,8 @@
 package ch.supsi.rubattu;
 
 import ch.supsi.rubattu.constructive.NearestNeighbor;
-import ch.supsi.rubattu.constructive.RandomNeighbor;
 import ch.supsi.rubattu.distance.EuclideanDistance;
 import ch.supsi.rubattu.local_search.LocalSearch;
-import ch.supsi.rubattu.local_search.Opt2;
 import ch.supsi.rubattu.local_search.Opt2h;
 import ch.supsi.rubattu.metaheuristic.HybridSA;
 import ch.supsi.rubattu.model.*;

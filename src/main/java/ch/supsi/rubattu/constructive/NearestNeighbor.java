@@ -1,6 +1,5 @@
 package ch.supsi.rubattu.constructive;
 
-import ch.supsi.rubattu.model.City;
 import ch.supsi.rubattu.model.DistanceMatrix;
 
 import java.util.Arrays;

@@ -2,14 +2,15 @@ package ch.supsi.rubattu.persistence;
 
 import ch.supsi.rubattu.model.City;
 
-import java.io.*;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class TSPFile {

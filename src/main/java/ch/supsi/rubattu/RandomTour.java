@@ -1,6 +1,5 @@
 package ch.supsi.rubattu;
 
-import ch.supsi.rubattu.constructive.NearestNeighbor;
 import ch.supsi.rubattu.constructive.RandomNeighbor;
 import ch.supsi.rubattu.distance.EuclideanDistance;
 import ch.supsi.rubattu.local_search.Opt2;

@@ -1,13 +1,14 @@
 package ch.supsi.rubattu;
 
 import ch.supsi.rubattu.constructive.NearestNeighbor;
-import ch.supsi.rubattu.constructive.RandomNeighbor;
 import ch.supsi.rubattu.distance.EuclideanDistance;
 import ch.supsi.rubattu.local_search.LocalSearch;
-import ch.supsi.rubattu.local_search.Opt2;
 import ch.supsi.rubattu.local_search.Opt2h;
 import ch.supsi.rubattu.metaheuristic.HybridSA;
-import ch.supsi.rubattu.model.*;
+import ch.supsi.rubattu.model.City;
+import ch.supsi.rubattu.model.DistanceMatrix;
+import ch.supsi.rubattu.model.Stopwatch;
+import ch.supsi.rubattu.model.Utility;
 import ch.supsi.rubattu.persistence.TSPFile;
 
 import java.io.IOException;
@@ -93,17 +94,14 @@ public class Test {
         NearestNeighbor nearestNeighbor = new NearestNeighbor(startingNode-1);
 
         while (true) {
-            long s;
-            do {
-                s = seedGenerator.nextLong();
-            } while (s > 0);
+            long s = System.currentTimeMillis();
             Random random = new Random(s);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.start();
 
             int[] response1 = nearestNeighbor.compute(matrix);
             int[] response2 = opt2h.optimize(response1);
-            int[] response3 = new HybridSA(matrix, best, 120_000, random, stopwatch, opt2h).optimize(response2);
+            int[] response3 = new HybridSA(matrix, best, 170_000, random, stopwatch, opt2h).optimize(response2);
 
             int finalCost = Utility.costOf(response3, matrix);
             double ratio = (((double) finalCost - best) / best) * 100;
