@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-@Ignore
+//@Ignore
 public class MainTest {
 
     private static List<Double> finalRatioResults;
@@ -45,10 +45,10 @@ public class MainTest {
     @Test(timeout = MAX_TIME_MILLIS)
     public void fl1577() {
         // NN + 2hopt: 1.28 con start index = 902/772 (7000ms)
-        long seed = 1586024319513L;
+        long seed = 1586041612725L;
         String[] args = {"-o -start903 -seed" + seed + " fl1577"};
         finalRatioResults.add(new Application(args).run());
-    } // 0.81
+    } // 0.82
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void kroA100() {
@@ -69,10 +69,10 @@ public class MainTest {
     @Test(timeout = MAX_TIME_MILLIS)
     public void pcb442() {
         // NN + 2hopt: 1.23 con start index = 191 (260ms)
-        long seed = 1586014369836L;
+        long seed = 1586080410689L;
         String[] args = {"-o -start192 -seed" + seed + " pcb442"};
         finalRatioResults.add(new Application(args).run());
-    } // 0.37
+    } // 0.26
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void pr439() {
@@ -85,18 +85,18 @@ public class MainTest {
     @Test(timeout = MAX_TIME_MILLIS)
     public void rat783() {
         // NN + 2hopt: 3.37 con start index = 4 (1036ms)
-        long seed = 1586022694826L;
+        long seed = 1586100623741L;
         String[] args = {"-o -start5 -seed" + seed + " rat783"};
         finalRatioResults.add(new Application(args).run());
-    } // 1.67
+    } // 1.53
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void u1060() {
         // NN + 2hopt: 3.84 con start index = 388 (2701ms)
-        long seed = 1586029711869L;
+        long seed = 1586059798720L;
         String[] args = {"-o -start389 -seed" + seed + " u1060"};
         finalRatioResults.add(new Application(args).run());
-    } // 2.03
+    } // 1.63
 
     @AfterClass
     public static void total() {
