@@ -9,6 +9,7 @@ import ch.supsi.rubattu.model.*;
 import ch.supsi.rubattu.persistence.TSPFile;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Random;
 
@@ -63,8 +64,20 @@ class Application {
         LocalSearch localSearch = new Opt2h(matrix);
         int[] tour2 = localSearch.optimize(tour1);
 
-        HybridSA hybridSA = new HybridSA(matrix, best, 180_500, random, stopwatch, localSearch);
-        int[] tour3 = hybridSA.optimize(tour2);
+        HybridSA hybridSA = new HybridSA(
+                matrix,
+                best,
+                180_000,
+                random,
+                stopwatch,
+                localSearch,
+                tspProblem);
+        int[] tour3 = new int[0];
+        try {
+            tour3 = hybridSA.optimize(tour2);
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+        }
 
         int finalCost = Utility.costOf(tour3, matrix);
 

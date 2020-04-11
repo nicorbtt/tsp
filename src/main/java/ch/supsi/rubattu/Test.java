@@ -12,6 +12,7 @@ import ch.supsi.rubattu.model.Utility;
 import ch.supsi.rubattu.persistence.TSPFile;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -101,7 +102,12 @@ public class Test {
 
             int[] response1 = nearestNeighbor.compute(matrix);
             int[] response2 = opt2h.optimize(response1);
-            int[] response3 = new HybridSA(matrix, best, 170_000, random, stopwatch, opt2h).optimize(response2);
+            int[] response3 = new int[0];
+            try {
+                response3 = new HybridSA(matrix, best, 163_000, random, stopwatch, opt2h, "-").optimize(response2);
+            } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+                e.printStackTrace();
+            }
 
             int finalCost = Utility.costOf(response3, matrix);
             double ratio = (((double) finalCost - best) / best) * 100;

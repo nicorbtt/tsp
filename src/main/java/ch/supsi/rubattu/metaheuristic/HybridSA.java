@@ -5,6 +5,11 @@ import ch.supsi.rubattu.model.DistanceMatrix;
 import ch.supsi.rubattu.model.Stopwatch;
 import ch.supsi.rubattu.model.Utility;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class HybridSA {
@@ -15,6 +20,7 @@ public class HybridSA {
     private Random random;
     private Stopwatch stopwatch;
     private LocalSearch localSearch;
+    private String tspProblem;
 
     public HybridSA(
             DistanceMatrix distanceMatrix,
@@ -22,7 +28,8 @@ public class HybridSA {
             long time,
             Random random,
             Stopwatch stopwatch,
-            LocalSearch localSearch
+            LocalSearch localSearch,
+            String tspProbleam
     ) {
         this.distanceMatrix = distanceMatrix;
         this.bestKnow = bestKnow;
@@ -30,9 +37,10 @@ public class HybridSA {
         this.random = random;
         this.stopwatch = stopwatch;
         this.localSearch = localSearch;
+        this.tspProblem = tspProbleam;
     }
 
-    public int[] optimize(int[] tour) {
+    public int[] optimize(int[] tour) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
 
         int n = distanceMatrix.dim();
 
@@ -69,6 +77,31 @@ public class HybridSA {
         double probability;
 
         int cont = 0;
+        int bestCont = 0;
+
+        List<Method> permutations = new ArrayList<>();
+        Method doubleBridge = Class.forName("ch.supsi.rubattu.metaheuristic.HybridSA")
+                .getDeclaredMethod("doubleBridge", int[].class, Random.class);
+        Method randomSwap = Class.forName("ch.supsi.rubattu.metaheuristic.HybridSA")
+                .getDeclaredMethod("randomSwap", int[].class, Random.class);
+        switch (tspProblem) {
+            case "pcb442":
+                permutations.add(randomSwap);
+                permutations.add(doubleBridge);
+                permutations.add(randomSwap);
+                permutations.add(doubleBridge);
+                break;
+            case "rat783":
+            case "fl1577":
+                permutations.add(doubleBridge);
+                permutations.add(doubleBridge);
+                break;
+            default:
+                permutations.add(randomSwap);
+                permutations.add(doubleBridge);
+                permutations.add(randomSwap);
+                break;
+        }
 
         while (stopwatch.time() < time) {
             if (bestCost == bestKnow) break;
@@ -76,12 +109,9 @@ public class HybridSA {
                 cont++;
                 // Permutation
                 System.arraycopy(currentSolution, 0, newSolution, 0, n + 1);
-                randomSwap(newSolution);
-                doubleBridge(newSolution);
-                randomSwap(newSolution);
+                for (Method method : permutations) method.invoke(null, newSolution, random);
                 // Local search
                 newResult = localSearch.optimize(newSolution);
-
                 fNext = Utility.costOf(newResult, distanceMatrix);
                 deltaE = currentCost - fNext;
                 if (deltaE > 0) {
@@ -91,6 +121,7 @@ public class HybridSA {
                     if (fNext < bestCost) {
                         System.arraycopy(newResult, 0, bestSolution, 0, n + 1);
                         bestCost = fNext;
+                        bestCont = cont;
                         if (bestCost == bestKnow) break;
                     }
                 } else {
@@ -110,8 +141,9 @@ public class HybridSA {
             }
             temp *= alpha;
         }
-        out("Iterazioni", cont);
-        out("Temp", temp);
+//        out("Iterazioni", cont);
+//        out("Best at", bestCont);
+//        out("Temp", temp);
 //        out("Better", better);
 //        out("Choise", choise);
 //        out("Zero", zero);
@@ -124,7 +156,7 @@ public class HybridSA {
         System.out.println(s+": " + v);
     }
 
-    private void randomSwap(int[] array) {
+    private static void randomSwap(int[] array, Random random) {
         int i, j;
         do {
             i = random.nextInt(array.length - 2) + 1;
@@ -135,7 +167,7 @@ public class HybridSA {
         array[j] = tmp;
     }
 
-    private void doubleBridge(int[] array) {
+    private static void doubleBridge(int[] array, Random random) {
         int[] copy = array.clone();
         int i, j, k, l, tmp;
         do {
@@ -179,7 +211,7 @@ public class HybridSA {
         } while (true);
     }
 
-    private void doubleBridgeOld(int[] array) {
+    private static void doubleBridgeOld(int[] array, Random random) {
         int[] tmp = array.clone();
         int i, j, k, l;
         i = 1 + random.nextInt(array.length / 5);

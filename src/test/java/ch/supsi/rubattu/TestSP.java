@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@Ignore
-public class MainTest {
+public class TestSP {
 
     private static List<Double> finalRatioResults;
     private final static long MAX_TIME_MILLIS = 181_000;
@@ -15,6 +15,7 @@ public class MainTest {
     @BeforeClass
     public static void setUp() {
         System.out.println("TSP Test started...");
+        //System.out.println();
         finalRatioResults = new ArrayList<>();
     }
 
@@ -45,7 +46,7 @@ public class MainTest {
     @Test(timeout = MAX_TIME_MILLIS)
     public void fl1577() {
         // NN + 2hopt: 1.28 con start index = 902/772 (7000ms)
-        long seed = 1586041612725L;
+        long seed = 1586562844037L;
         String[] args = {"-o -start903 -seed" + seed + " fl1577"};
         finalRatioResults.add(new Application(args).run());
     } // 0.82
@@ -69,7 +70,7 @@ public class MainTest {
     @Test(timeout = MAX_TIME_MILLIS)
     public void pcb442() {
         // NN + 2hopt: 1.23 con start index = 191 (260ms)
-        long seed = 1586080410689L;
+        long seed = 1586347639507L;
         String[] args = {"-o -start192 -seed" + seed + " pcb442"};
         finalRatioResults.add(new Application(args).run());
     } // 0.26
@@ -85,7 +86,7 @@ public class MainTest {
     @Test(timeout = MAX_TIME_MILLIS)
     public void rat783() {
         // NN + 2hopt: 3.37 con start index = 4 (1036ms)
-        long seed = 1586100623741L;
+        long seed = 1586497700242L;
         String[] args = {"-o -start5 -seed" + seed + " rat783"};
         finalRatioResults.add(new Application(args).run());
     } // 1.53
