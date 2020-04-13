@@ -27,7 +27,7 @@ public class TSPFile {
     private Map<Header, String> properties = new HashMap<>();
     private City[] cities;
 
-    public City[] parse(String tspProblem) throws IOException {
+    public City[] parse(String tspProblem) {
         InputStream is = getClass().getResourceAsStream("/" + tspProblem + ".tsp");
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader br = new BufferedReader(isr);
@@ -73,8 +73,8 @@ public class TSPFile {
 
     public void output(int[] tour, double cost, long seed, double ratio) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SEED : ").append(seed).append(System.lineSeparator());
-        stringBuilder.append("RATIO : ").append(ratio).append(System.lineSeparator());
+        //stringBuilder.append("SEED : ").append(seed).append(System.lineSeparator());
+        //stringBuilder.append("RATIO : ").append(ratio).append(System.lineSeparator());
         stringBuilder.append("NAME : ").append(properties.get(Header.NAME)).append(".opt.tour");
         stringBuilder.append(System.lineSeparator());
         stringBuilder.append("COMMENT : ").append("Tour result for ").append(properties.get(Header.NAME)).append(

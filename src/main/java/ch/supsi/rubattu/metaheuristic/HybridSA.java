@@ -5,12 +5,12 @@ import ch.supsi.rubattu.model.DistanceMatrix;
 import ch.supsi.rubattu.model.Stopwatch;
 import ch.supsi.rubattu.model.Utility;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class HybridSA {
 
@@ -40,7 +40,8 @@ public class HybridSA {
         this.tspProblem = tspProbleam;
     }
 
-    public int[] optimize(int[] tour) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
+    public int[] optimize(int[] tour, AtomicInteger iterationOfBest) throws ClassNotFoundException, NoSuchMethodException,
+            InvocationTargetException, IllegalAccessException, InstantiationException {
 
         int n = distanceMatrix.dim();
 
@@ -143,6 +144,7 @@ public class HybridSA {
         }
 //        out("Iterazioni", cont);
 //        out("Best at", bestCont);
+        iterationOfBest.set(bestCont);
 //        out("Temp", temp);
 //        out("Better", better);
 //        out("Choise", choise);

@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Test {
 
@@ -103,8 +104,16 @@ public class Test {
             int[] response1 = nearestNeighbor.compute(matrix);
             int[] response2 = opt2h.optimize(response1);
             int[] response3 = new int[0];
+            AtomicInteger iterationOfBest = new AtomicInteger(0);
             try {
-                response3 = new HybridSA(matrix, best, 163_000, random, stopwatch, opt2h, "-").optimize(response2);
+                response3 = new HybridSA(
+                        matrix,
+                        best,
+                        165_000,
+                        random,
+                        stopwatch,
+                        opt2h,
+                        fileName).optimize(response2, iterationOfBest);
             } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
             }

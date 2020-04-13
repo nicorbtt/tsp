@@ -15,7 +15,6 @@ public class TestSP {
     @BeforeClass
     public static void setUp() {
         System.out.println("TSP Test started...");
-        //System.out.println();
         finalRatioResults = new ArrayList<>();
     }
 
@@ -49,7 +48,7 @@ public class TestSP {
         long seed = 1586562844037L;
         String[] args = {"-o -start903 -seed" + seed + " fl1577"};
         finalRatioResults.add(new Application(args).run());
-    } // 0.82
+    } // 0.74
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void kroA100() {
@@ -73,7 +72,7 @@ public class TestSP {
         long seed = 1586347639507L;
         String[] args = {"-o -start192 -seed" + seed + " pcb442"};
         finalRatioResults.add(new Application(args).run());
-    } // 0.26
+    } // 0.02
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void pr439() {
@@ -89,7 +88,7 @@ public class TestSP {
         long seed = 1586497700242L;
         String[] args = {"-o -start5 -seed" + seed + " rat783"};
         finalRatioResults.add(new Application(args).run());
-    } // 1.53
+    } // 1.29
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void u1060() {
@@ -102,8 +101,8 @@ public class TestSP {
     @AfterClass
     public static void total() {
         double finalRatio = finalRatioResults.stream().mapToDouble(a -> a).average().getAsDouble();
-        for (int i=0;i<77; i++) System.out.print("-");
+        for (int i=0;i<100; i++) System.out.print("-");
         System.out.println();
-        System.out.format("%.3f\n", finalRatio);
+        System.out.format("%.3f%%\n", finalRatio);
     }
 }
