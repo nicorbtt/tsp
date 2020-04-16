@@ -1,27 +1,30 @@
 package ch.supsi.rubattu.model;
 
+// class that hold per city data
 public class City {
 
-    private Integer id;
-    private Double x;
-    private Double y;
+    // city identifier
+    private int id;
+    // city x coordinate
+    private double x;
+    // city y coordinate
+    private double y;
 
-    public City(Integer id, Double x, Double y) {
+    public City(int id, double x, double y) {
         this.id = id;
         this.x = x;
         this.y = y;
     }
 
-    public Integer id() {
+    public int id() {
         return id;
     }
 
-    public Double x() {
+    public double x() {
         return x;
     }
 
-
-    public Double y() {
+    public double y() {
         return y;
     }
 

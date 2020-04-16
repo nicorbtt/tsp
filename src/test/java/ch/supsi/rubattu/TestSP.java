@@ -1,5 +1,6 @@
 package ch.supsi.rubattu;
 
+import ch.supsi.rubattu.core.Application;
 import org.junit.*;
 import org.junit.Test;
 
@@ -14,89 +15,81 @@ public class TestSP {
 
     @BeforeClass
     public static void setUp() {
-        System.out.println("TSP Test started...");
+        System.out.println("TSP Tuning started...");
         finalRatioResults = new ArrayList<>();
     }
 
+    //TODO UPDATE NN + 2h-opt always exchange ratios
+
     @Test(timeout = MAX_TIME_MILLIS)
     public void ch130() {
-        // NN + 2hopt: 2.06 con start = 42 (76ms)
-        long seed = 1586013051794L;
-        String[] args = {"-o -start43 -seed" + seed + " ch130"};
+        long seed = 0L;
+        String[] args = {"-o -start1 -seed" + seed + " ch130"};
         finalRatioResults.add(new Application(args).run());
-    } //0.0
+    } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void d198() {
-        // NN + 2hopt: 0.23 con start index = 136 (109ms)
-        long seed = 1586013353304L;
-        String[] args = {"-o -start137 -seed" + seed + " d198"};
+        long seed = 0L;
+        String[] args = {"-o -start30 -seed" + seed + " d198"};
         finalRatioResults.add(new Application(args).run());
-    } //0.0
+    } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void eil76() {
-        // NN + 2hopt: 1.49 con start index = 6 (47ms)
-        long seed = 1586013194541L;
+        long seed = 0L;
         String[] args = {"-o -start7 -seed" + seed + " eil76"};
         finalRatioResults.add(new Application(args).run());
-    } //0.0
+    } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void fl1577() {
-        // NN + 2hopt: 1.28 con start index = 902/772 (7000ms)
-        long seed = 1586562844037L;
-        String[] args = {"-o -start903 -seed" + seed + " fl1577"};
+        long seed = 1586959056958L;
+        String[] args = {"-o -start461 -seed" + seed + " fl1577"};
         finalRatioResults.add(new Application(args).run());
-    } // 0.74
+    } // 0.571
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void kroA100() {
-        // NN + 2hopt: 0.00 con start index = 1 (50ms)
         long seed = 0L;
-        String[] args = {"-o -start2 -seed" + seed + " kroA100"};
+        String[] args = {"-o -start17 -seed" + seed + " kroA100"};
         finalRatioResults.add(new Application(args).run());
-    } //0.0
+    } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void lin318() {
-        // NN + 2hopt: 1.83 con start index = 291 (193ms)
-        long seed = 1586013696890L;
+        long seed = 0L;
         String[] args = {"-o -start292 -seed" + seed + " lin318"};
         finalRatioResults.add(new Application(args).run());
-    } //0.0
+    } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void pcb442() {
-        // NN + 2hopt: 1.23 con start index = 191 (260ms)
-        long seed = 1586347639507L;
-        String[] args = {"-o -start192 -seed" + seed + " pcb442"};
+        long seed = 1586979372812L;
+        String[] args = {"-o -start221 -seed" + seed + " pcb442"};
         finalRatioResults.add(new Application(args).run());
-    } // 0.02
+    } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void pr439() {
-        // NN + 2hopt: 1.12 con start index = 20 (270ms)
         long seed = 1586023885384L;
-        String[] args = {"-o -start21 -seed" + seed + " pr439"};
+        String[] args = {"-o -start301 -seed" + seed + " pr439"};
         finalRatioResults.add(new Application(args).run());
-    } // 0.00(2)
+    } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void rat783() {
-        // NN + 2hopt: 3.37 con start index = 4 (1036ms)
-        long seed = 1586497700242L;
-        String[] args = {"-o -start5 -seed" + seed + " rat783"};
+        long seed = 1586927476425L;
+        String[] args = {"-o -start51 -seed" + seed + " rat783"};
         finalRatioResults.add(new Application(args).run());
-    } // 1.29
+    } // 0.307
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void u1060() {
-        // NN + 2hopt: 3.84 con start index = 388 (2701ms)
-        long seed = 1586059798720L;
-        String[] args = {"-o -start389 -seed" + seed + " u1060"};
+        long seed = 1586927260364L;
+        String[] args = {"-o -start12 -seed" + seed + " u1060"};
         finalRatioResults.add(new Application(args).run());
-    } // 1.63
+    } // 0.797
 
     @AfterClass
     public static void total() {

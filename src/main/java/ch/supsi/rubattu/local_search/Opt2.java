@@ -15,26 +15,19 @@ public class Opt2 implements LocalSearch {
         int[] tour = new int[result.length];
         System.arraycopy(result, 0, tour, 0, result.length);
 
-        int improvement, bestImprovement;
-        int I, J;
+        int improvement;
         boolean swaps;
 
         do {
-            bestImprovement = I = J = 0;
+            swaps = false;
             for (int i = 1; i < tour.length - 2; i++) {
                 for (int j = i + 1; j < tour.length - 1; j++) {
                     improvement = checkImprovement(i, j, tour);
-                    if (improvement > bestImprovement) {
-                        bestImprovement = improvement;
-                        I = i;
-                        J = j;
+                    if (improvement > 0) {
+                        exchange(tour, i, j);
+                        swaps = true;
                     }
                 }
-            }
-            swaps = false;
-            if (bestImprovement > 0) {
-                exchange(tour, I, J);
-                swaps = true;
             }
         } while (swaps);
         return tour;

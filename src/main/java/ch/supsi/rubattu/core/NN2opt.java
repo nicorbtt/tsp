@@ -1,4 +1,4 @@
-package ch.supsi.rubattu;
+package ch.supsi.rubattu.core;
 
 import ch.supsi.rubattu.constructive.NearestNeighbor;
 import ch.supsi.rubattu.distance.EuclideanDistance;
@@ -7,9 +7,8 @@ import ch.supsi.rubattu.model.City;
 import ch.supsi.rubattu.model.DistanceMatrix;
 import ch.supsi.rubattu.model.Stopwatch;
 import ch.supsi.rubattu.model.Utility;
-import ch.supsi.rubattu.persistence.TSPFile;
+import ch.supsi.rubattu.model.TSPFile;
 
-import java.io.IOException;
 import java.util.List;
 
 public class NN2opt {
@@ -20,7 +19,7 @@ public class NN2opt {
         this.args = args.clone();
     }
 
-    public void run() throws IOException {
+    public void run() {
 
         Stopwatch stopwatch = new Stopwatch();
 
@@ -70,26 +69,28 @@ public class NN2opt {
 
         stopwatch.start();
 
-        //for (int i=0; i<cities.length; i++) {
-            //System.out.println(i);
-            int[] response1 = new NearestNeighbor(startingNode-1).compute(matrix);
-            //int[] response1 = new RandomNeighbor(new Random(0), matrix.dim()).compute();
+        for (int i=0; i<cities.length; i++) {
+            System.out.println(i);
+            System.out.println("NN...");
+            int[] response1 = new NearestNeighbor(i).build(matrix);
+            //int[] response1 = new RandomNeighbor(new Random(0), matrix.dim()).build();
+            System.out.println("Opt2...");
             //int[] response2 = new Opt2(matrix).optimize(response1);
             int[] response2 = new Opt2h(matrix).optimize(response1);
             int finalCost = Utility.costOf(response2, matrix);
             double ratio = (((double) finalCost - best) / best) * 100;
 
-            /*if (ratio < min) {
+            if (ratio < min) {
                 min = ratio;
                 ind = i;
             }
 
             if (ratio == 0) break;
-        }*/
+        }
 
-        System.out.println(tspProblem + " " + ratio);
-        //System.out.println("Min: " + min + " start= " + ind);
-        System.out.println(stopwatch.end());
+        //System.out.println(tspProblem + " " + ratio);
+        System.out.println("Min: " + min + " start= " + ind);
+        //System.out.println(stopwatch.end());
 
     }
 }

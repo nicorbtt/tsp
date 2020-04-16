@@ -1,4 +1,4 @@
-package ch.supsi.rubattu;
+package ch.supsi.rubattu.core;
 
 import ch.supsi.rubattu.constructive.NearestNeighbor;
 import ch.supsi.rubattu.distance.EuclideanDistance;
@@ -9,10 +9,9 @@ import ch.supsi.rubattu.model.City;
 import ch.supsi.rubattu.model.DistanceMatrix;
 import ch.supsi.rubattu.model.Stopwatch;
 import ch.supsi.rubattu.model.Utility;
-import ch.supsi.rubattu.persistence.TSPFile;
+import ch.supsi.rubattu.model.TSPFile;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -21,15 +20,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Test {
+public class Tuning {
 
     private String[] args;
 
-    public Test(String[] args) {
+    public Tuning(String[] args) {
         this.args = args.clone();
     }
 
-    public void run() throws IOException {
+    public void run() {
 
         boolean verbose = false;
         boolean output = false;
@@ -95,32 +94,27 @@ public class Test {
 
         NearestNeighbor nearestNeighbor = new NearestNeighbor(startingNode-1);
 
+        long s = 0;
+
         while (true) {
-            long s = System.currentTimeMillis();
             Random random = new Random(s);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.start();
 
-            int[] response1 = nearestNeighbor.compute(matrix);
+            int[] response1 = nearestNeighbor.build(matrix);
+
             int[] response2 = opt2h.optimize(response1);
-            int[] response3 = new int[0];
             AtomicInteger iterationOfBest = new AtomicInteger(0);
-            try {
-                response3 = new HybridSA(
+            int[] response3 = new HybridSA(
                         matrix,
                         best,
-                        165_000,
+                        170_000,
                         random,
                         stopwatch,
-                        opt2h,
-                        fileName).optimize(response2, iterationOfBest);
-            } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
-                e.printStackTrace();
-            }
+                        opt2h).optimize(response2, iterationOfBest, new AtomicInteger());
 
             int finalCost = Utility.costOf(response3, matrix);
             double ratio = (((double) finalCost - best) / best) * 100;
-
             if (ratio < min) {
                 System.out.println("Find a better one! :) " + ratio + " " + s);
                 file.output(response3, finalCost, s, ratio);
@@ -130,6 +124,7 @@ public class Test {
                 System.out.println("Find optimum!!! YOO");
                 break;
             }
+            s = System.currentTimeMillis();
         }
 
     }

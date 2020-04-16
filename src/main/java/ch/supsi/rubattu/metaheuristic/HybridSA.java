@@ -5,14 +5,10 @@ import ch.supsi.rubattu.model.DistanceMatrix;
 import ch.supsi.rubattu.model.Stopwatch;
 import ch.supsi.rubattu.model.Utility;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HybridSA {
+public class HybridSA implements Metaheuristic {
 
     private DistanceMatrix distanceMatrix;
     private int bestKnow;
@@ -20,7 +16,6 @@ public class HybridSA {
     private Random random;
     private Stopwatch stopwatch;
     private LocalSearch localSearch;
-    private String tspProblem;
 
     public HybridSA(
             DistanceMatrix distanceMatrix,
@@ -28,8 +23,7 @@ public class HybridSA {
             long time,
             Random random,
             Stopwatch stopwatch,
-            LocalSearch localSearch,
-            String tspProbleam
+            LocalSearch localSearch
     ) {
         this.distanceMatrix = distanceMatrix;
         this.bestKnow = bestKnow;
@@ -37,11 +31,9 @@ public class HybridSA {
         this.random = random;
         this.stopwatch = stopwatch;
         this.localSearch = localSearch;
-        this.tspProblem = tspProbleam;
     }
 
-    public int[] optimize(int[] tour, AtomicInteger iterationOfBest) throws ClassNotFoundException, NoSuchMethodException,
-            InvocationTargetException, IllegalAccessException, InstantiationException {
+    public int[] optimize(int[] tour, AtomicInteger iterationOfBest, AtomicInteger finalCost) {
 
         int n = distanceMatrix.dim();
 
@@ -80,37 +72,13 @@ public class HybridSA {
         int cont = 0;
         int bestCont = 0;
 
-        List<Method> permutations = new ArrayList<>();
-        Method doubleBridge = Class.forName("ch.supsi.rubattu.metaheuristic.HybridSA")
-                .getDeclaredMethod("doubleBridge", int[].class, Random.class);
-        Method randomSwap = Class.forName("ch.supsi.rubattu.metaheuristic.HybridSA")
-                .getDeclaredMethod("randomSwap", int[].class, Random.class);
-        switch (tspProblem) {
-            case "pcb442":
-                permutations.add(randomSwap);
-                permutations.add(doubleBridge);
-                permutations.add(randomSwap);
-                permutations.add(doubleBridge);
-                break;
-            case "rat783":
-            case "fl1577":
-                permutations.add(doubleBridge);
-                permutations.add(doubleBridge);
-                break;
-            default:
-                permutations.add(randomSwap);
-                permutations.add(doubleBridge);
-                permutations.add(randomSwap);
-                break;
-        }
-
         while (stopwatch.time() < time) {
             if (bestCost == bestKnow) break;
             for (i = 0; i < tempLength && stopwatch.time() < time; i++) {
                 cont++;
                 // Permutation
                 System.arraycopy(currentSolution, 0, newSolution, 0, n + 1);
-                for (Method method : permutations) method.invoke(null, newSolution, random);
+                doubleBridge(newSolution, random);
                 // Local search
                 newResult = localSearch.optimize(newSolution);
                 fNext = Utility.costOf(newResult, distanceMatrix);
@@ -126,10 +94,6 @@ public class HybridSA {
                         if (bestCost == bestKnow) break;
                     }
                 } else {
-                    if (deltaE == 0) {
-                        //zero++;
-                        continue;
-                    }
                     //choise++;
                     dado = random.nextDouble();
                     probability = Math.exp(deltaE / temp);
@@ -144,13 +108,13 @@ public class HybridSA {
         }
 //        out("Iterazioni", cont);
 //        out("Best at", bestCont);
-        iterationOfBest.set(bestCont);
 //        out("Temp", temp);
 //        out("Better", better);
 //        out("Choise", choise);
-//        out("Zero", zero);
 //        out("SI", (double) si*100 / choise);
 //        out("NO", (double) no*100 / choise);
+        iterationOfBest.set(bestCont);
+        finalCost.set(bestCost);
         return bestSolution;
     }
 
