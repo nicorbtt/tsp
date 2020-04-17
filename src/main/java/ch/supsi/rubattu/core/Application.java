@@ -7,11 +7,9 @@ import ch.supsi.rubattu.local_search.Opt2h;
 import ch.supsi.rubattu.metaheuristic.HybridSA;
 import ch.supsi.rubattu.metaheuristic.Metaheuristic;
 import ch.supsi.rubattu.model.*;
-import ch.supsi.rubattu.model.TSPFile;
 
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Application {
 
@@ -64,7 +62,7 @@ public class Application {
         int best = Integer.parseInt(file.getProperties(TSPFile.Header.BEST_KNOWN));
         if (verbose) System.out.println("Algotithm running for 3 minute...");
         // first tour using NearestNeighbor algorithm (constructive)
-        int[] tour1 = new NearestNeighbor(startingNode - 1).build(matrix);
+        int[] tour = new NearestNeighbor(startingNode - 1).build(matrix);
         // let's instantiate our local search algorithm
         // (a 2h-opt one) used for first local search run and afterwards into the
         // metaheuristic algorithm
@@ -72,17 +70,7 @@ public class Application {
         // second tour optimized by the first local search run
         // this tour represent the initial solution as a parameter
         // for metaheuristic algorithm
-        int[] tour2 = localSearch.optimize(tour1);
-        // this AtomicInteger object is shared with the metaheuristic
-        // algorithm that will fill it with the number of iteration in which
-        // the best result was found
-        // N.B. used for alignment when the run is called from different system.
-        //      Our search is time limited (3 min) and the hardware is relevant for reach a
-        //      best result within them
-        AtomicInteger iterationOfBest = new AtomicInteger(0);
-        // this AtomicInteger object is shared with the metaheuristic
-        // algorithm that will fill it with the final solution cost
-        AtomicInteger finalCost = new AtomicInteger(0);
+        localSearch.optimize(tour);
         // let's instantiate our local search algorithm
         // params:
         // . distance matrix
@@ -94,14 +82,21 @@ public class Application {
         // . stopwatch
         // . local search algorithm to be used inside
         Metaheuristic hybridSA = new HybridSA(matrix, best, 180_300, random, stopwatch, localSearch);
-        // run the metaheuristic process and wait with folded arms :)
-        int[] tour3 = hybridSA.optimize(tour2, iterationOfBest, finalCost);
+        // this execution info object will store some useful information about
+        // the result of metaheuristic execution: number of iterations done, number of iteration in
+        // which the best result will be found, final cost of the solution
+        // N.B. iteration values are used for alignment when the run is called from different system.
+        //      Our search is time limited (3 min) and the hardware is relevant for reach a
+        //      best result within them. Know at which iterations the best solution is found could be useful.
+        ExecutionInfo executionInfo = new ExecutionInfo();
+        // run the metaheuristic process on our tour and wait with folded arms :)
+        hybridSA.optimize(tour, executionInfo);
         // calculate the error
-        double error100 = (((double) finalCost.get() - best) / best) * 100;
-        // Validator run used for debug not called in release
+        double error100 = (((double) executionInfo.getCost() - best) / best) * 100;
+        // Validator check used for debug not called in release
         //if (!Utility.validate(tour3, matrix)) System.out.println("route not valid");
         // write the result to .opt.tour if requested
-        if (output) file.output(tour3, finalCost.get(), seed, error100);
+        if (output) file.output(tour, executionInfo.getCost(), seed, error100);
         if (output && verbose) System.out.println(tspProblem + ".opt.tour written");
         // print the result resume
         System.out.format("[%7s]\tStart: %4d\tSeed: %13d\tError: %.3f%%\tBest at: %5d\tTime: %6d\n",
@@ -109,9 +104,9 @@ public class Application {
                 startingNode,
                 seed,
                 error100,
-                iterationOfBest.get(),
+                executionInfo.getBestIterationAt(),
                 stopwatch.end());
-        // return error for collecting all them when run all tsp problem together
+        // return error for collecting all them when run all tsp problem together (mvn test)
         // and calculate a mean result of them
         return error100;
     }

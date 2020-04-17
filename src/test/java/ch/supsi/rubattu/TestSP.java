@@ -19,31 +19,30 @@ public class TestSP {
         finalRatioResults = new ArrayList<>();
     }
 
-    //TODO UPDATE NN + 2h-opt always exchange ratios
-
     @Test(timeout = MAX_TIME_MILLIS)
     public void ch130() {
-        long seed = 0L;
-        String[] args = {"-o -start1 -seed" + seed + " ch130"};
+        // NN + 2h-opt: 1.47
+        String[] args = {"-o -start17 ch130"};
         finalRatioResults.add(new Application(args).run());
     } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void d198() {
-        long seed = 0L;
-        String[] args = {"-o -start30 -seed" + seed + " d198"};
+        // NN + 2h-opt: 0.71
+        String[] args = {"-o -start30 d198"};
         finalRatioResults.add(new Application(args).run());
     } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void eil76() {
-        long seed = 0L;
-        String[] args = {"-o -start7 -seed" + seed + " eil76"};
+        // NN + 2h-opt: 0
+        String[] args = {"-o -start1 eil76"};
         finalRatioResults.add(new Application(args).run());
     } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void fl1577() {
+        // NN + 2h-opt: 2.57
         long seed = 1586959056958L;
         String[] args = {"-o -start461 -seed" + seed + " fl1577"};
         finalRatioResults.add(new Application(args).run());
@@ -51,20 +50,21 @@ public class TestSP {
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void kroA100() {
-        long seed = 0L;
-        String[] args = {"-o -start17 -seed" + seed + " kroA100"};
+        // NN + 2h-opt: 0.18
+        String[] args = {"-o -start17 kroA100"};
         finalRatioResults.add(new Application(args).run());
     } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void lin318() {
-        long seed = 0L;
-        String[] args = {"-o -start292 -seed" + seed + " lin318"};
+        // NN + 2h-opt: 1.69
+        String[] args = {"-o -start97 lin318"};
         finalRatioResults.add(new Application(args).run());
     } // 0
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void pcb442() {
+        // NN + 2h-opt: 1.22
         long seed = 1586979372812L;
         String[] args = {"-o -start221 -seed" + seed + " pcb442"};
         finalRatioResults.add(new Application(args).run());
@@ -72,6 +72,7 @@ public class TestSP {
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void pr439() {
+        // NN + 2h-opt: 1.77
         long seed = 1586023885384L;
         String[] args = {"-o -start301 -seed" + seed + " pr439"};
         finalRatioResults.add(new Application(args).run());
@@ -79,6 +80,7 @@ public class TestSP {
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void rat783() {
+        // NN + 2h-opt: 3.83
         long seed = 1586927476425L;
         String[] args = {"-o -start51 -seed" + seed + " rat783"};
         finalRatioResults.add(new Application(args).run());
@@ -86,6 +88,7 @@ public class TestSP {
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void u1060() {
+        // NN + 2h-opt: 3.78
         long seed = 1586927260364L;
         String[] args = {"-o -start12 -seed" + seed + " u1060"};
         finalRatioResults.add(new Application(args).run());
