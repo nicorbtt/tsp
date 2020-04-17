@@ -1,7 +1,5 @@
-SEED : 0
-RATIO : 0.0
 NAME : d198.opt.tour
-COMMENT : Tour result for d198.tsp (cost = 15780.0)
+COMMENT : Tour result for d198.tsp (cost = 15780)
 TYPE : TOUR
 DIMENSION : 198
 TOUR_SECTION

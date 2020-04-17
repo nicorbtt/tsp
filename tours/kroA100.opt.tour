@@ -1,7 +1,5 @@
-SEED : 0
-RATIO : 0.0
 NAME : kroA100.opt.tour
-COMMENT : Tour result for kroA100.tsp (cost = 21282.0)
+COMMENT : Tour result for kroA100.tsp (cost = 21282)
 TYPE : TOUR
 DIMENSION : 100
 TOUR_SECTION

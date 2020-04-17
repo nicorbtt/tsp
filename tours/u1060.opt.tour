@@ -1,7 +1,5 @@
-SEED : 1586927260364
-RATIO : 0.7974332199880408
 NAME : u1060.opt.tour
-COMMENT : Tour result for u1060.tsp (cost = 225881.0)
+COMMENT : Tour result for u1060.tsp (cost = 225881)
 TYPE : TOUR
 DIMENSION : 1060
 TOUR_SECTION

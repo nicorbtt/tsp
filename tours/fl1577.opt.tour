@@ -1,7 +1,5 @@
-SEED : 1586959056958
-RATIO : 0.5708121713335431
 NAME : fl1577.opt.tour
-COMMENT : Tour result for fl1577.tsp (cost = 22376.0)
+COMMENT : Tour result for fl1577.tsp (cost = 22376)
 TYPE : TOUR
 DIMENSION : 1577
 TOUR_SECTION

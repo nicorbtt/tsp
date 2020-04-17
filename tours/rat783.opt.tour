@@ -1,7 +1,5 @@
-SEED : 1586927476425
-RATIO : 0.3066091301385419
 NAME : rat783.opt.tour
-COMMENT : Tour result for rat783.tsp (cost = 8833.0)
+COMMENT : Tour result for rat783.tsp (cost = 8833)
 TYPE : TOUR
 DIMENSION : 783
 TOUR_SECTION

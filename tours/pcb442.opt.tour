@@ -1,7 +1,5 @@
-SEED : 1586979372812
-RATIO : 0.0
 NAME : pcb442.opt.tour
-COMMENT : Tour result for pcb442.tsp (cost = 50778.0)
+COMMENT : Tour result for pcb442.tsp (cost = 50778)
 TYPE : TOUR
 DIMENSION : 442
 TOUR_SECTION

@@ -85,7 +85,7 @@ public class TSPFile {
     }
 
     // method that will write tour final result (used with output option)
-    public void output(int[] tour, double cost, long seed, double error100) {
+    public void output(int[] tour, int cost, long seed, double error100) {
         // Build the string content with a string builder...
         StringBuilder stringBuilder = new StringBuilder();
         //stringBuilder.append("SEED : ").append(seed).append(System.lineSeparator());

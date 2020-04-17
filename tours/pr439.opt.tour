@@ -1,7 +1,5 @@
-SEED : 1586023885384
-RATIO : 0.0
 NAME : pr439.opt.tour
-COMMENT : Tour result for pr439.tsp (cost = 107217.0)
+COMMENT : Tour result for pr439.tsp (cost = 107217)
 TYPE : TOUR
 DIMENSION : 439
 TOUR_SECTION
