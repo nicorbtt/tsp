@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -33,8 +34,7 @@ public class Tuning {
                 break;
             case 2:
                 tspProblem = args[args.length-1];
-                List<String> options = List.of(args);
-                for (String option : options) {
+                for (String option : args) {
                     if (option.matches("-start[0-9]+")) {
                         String numberOnly = option.replaceAll("[^0-9]", "");
                         startingNode = Integer.parseInt(numberOnly);

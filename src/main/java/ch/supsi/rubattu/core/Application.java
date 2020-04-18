@@ -8,6 +8,8 @@ import ch.supsi.rubattu.metaheuristic.HybridSA;
 import ch.supsi.rubattu.metaheuristic.Metaheuristic;
 import ch.supsi.rubattu.model.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -133,7 +135,7 @@ public class Application {
             case 5:
             case 6:
                 tspProblem = args[args.length-1];
-                List<String> options = List.of(args);
+                List<String> options = Arrays.asList(args);
                 if (options.contains("-v")) verbose = true;
                 if (options.contains("-o")) output = true;
                 for (String option : options) {
@@ -150,8 +152,9 @@ public class Application {
                 break;
             default: return false;
         }
-        List<String> tspProblemValid = List.of("ch130", "d198", "eil76", "fl1577", "kroA100", "lin318", "pcb442",
-                "pr439", "rat783", "u1060");
+        String[] tspProblemValidArray = {"ch130", "d198", "eil76", "fl1577", "kroA100", "lin318", "pcb442",
+                "pr439", "rat783", "u1060"};
+        List<String> tspProblemValid = Arrays.asList(tspProblemValidArray);
         if (tspProblemValid.contains(tspProblem)) return true;
         else {
             System.out.println("TSP problem '" + tspProblem + "' not present, sorry...");

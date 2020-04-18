@@ -43,7 +43,7 @@ public class TestSP {
     @Test(timeout = MAX_TIME_MILLIS)
     public void fl1577() {
         // NN + 2h-opt: 2.57
-        long seed = 1586959056958L;
+        long seed = 1587216352705L;
         String[] args = {"-o -start461 -seed" + seed + " fl1577"};
         finalRatioResults.add(new Application(args).run());
     } // 0.571
