@@ -46,7 +46,7 @@ public class TestSP {
         long seed = 1587216352705L;
         String[] args = {"-o -start461 -seed" + seed + " fl1577"};
         finalRatioResults.add(new Application(args).run());
-    } // 0.571
+    } // 0.409
 
     @Test(timeout = MAX_TIME_MILLIS)
     public void kroA100() {
@@ -89,7 +89,7 @@ public class TestSP {
     @Test(timeout = MAX_TIME_MILLIS)
     public void u1060() {
         // NN + 2h-opt: 3.78
-        long seed = 1586927260364L;
+        long seed = 1587257994270L;
         String[] args = {"-o -start12 -seed" + seed + " u1060"};
         finalRatioResults.add(new Application(args).run());
     } // 0.797
