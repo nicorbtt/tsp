@@ -15,7 +15,7 @@ public class SolverTest {
 
     @BeforeClass
     public static void setUp() {
-        System.out.println("TSP Tuning started...");
+        System.out.println("TSP optimization started...");
         finalRatioResults = new ArrayList<>();
     }
 
@@ -100,5 +100,6 @@ public class SolverTest {
         for (int i=0;i<100; i++) System.out.print("-");
         System.out.println();
         System.out.format("%.3f%%\n", finalRatio);
+        System.out.println("©Nicolò Rubattu");
     }
 }
