@@ -2,7 +2,7 @@
 
 Winning solution of the
 
-### 19th SUPSI Algorithms Cup 🏆
+### 20th SUPSI Algorithms Cup 2020 🏆
 
 @ Professor Luca Maria Gambardella
 
