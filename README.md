@@ -8,3 +8,5 @@ Winning solution of the
 
 👀 https://www.linkedin.com/posts/nicorbtt_coppaalgoritmi-bachelor-ai-activity-7011734815016169474-IhZw
 
+![alt text]([http://url/to/img.png](http://www.opl.ufc.br/en/post/tsp/featured.png)http://www.opl.ufc.br/en/post/tsp/featured.png)
+
